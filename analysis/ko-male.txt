@@ -1,0 +1,44 @@
+/Users/cudmore/box/data/sami/data/191230/BIN1_smKO_Male/Cell_12/12_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/BIN1_smKO_Male/Cell_13/13_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/BIN1_smKO_Male/Cell_14/14_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/BIN1_smKO_Male/Cell_15/15_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 1/Male KO cell 1_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 10/Male KO cell 10_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 11/Male KO cell 11_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 12/Male KO cell 12_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 13/Male KO cell 13_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 14/Male KO cell 14_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 15/Male KO cell 15_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 16/Male KO cell 16_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 17/Male KO cell 17_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 18/Male KO cell 18_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 19/Male KO cell 19_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 2/Male KO cell 2_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 20/Male KO cell 20_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 21/Male KO cell 21_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 22/Male KO cell 22_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 23/Male KO cell 23_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 24/Male KO cell 24_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 25/Male KO cell 25_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 26/Male KO cell 26_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 27/Male KO cell 27_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 28/Male KO cell 28_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 29/Male KO cell 29_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 3/Male KO cell 3_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 30/Male KO cell 30_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 4/Male KO cell 4_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 5/Male KO cell 5_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 6/Male KO cell 6_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 7/Male KO cell 7_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 8/Male KO cell 8_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/Bin1smKO Male/Cell 9/Male KO cell 9_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 1/KO Male 1_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 10/KO Male 10_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 2/KO Male 2_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 3/KO Male 3_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 4/KO Male 4_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 5/KO Male 5_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 6/KO Male 6_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 7/KO Male 7_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 8/KO Male 8_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Male/Cell 9/KO Male 9_3ADVMLEG1L1_ch2.tif

@@ -1,0 +1,25 @@
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_2/2_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_3/3_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_4_/4_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_5/5_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_6/6_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_9/9_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_10/10_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/BIN1smKO_Female/Cell_11/11_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 1/Female KOl 1_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 10/Female KO 10_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 11/Female KO 11_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 12/Female KO 12_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 13/Female KO 13_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 14/Female KO 14_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 15/Female KO 15_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 16/Female KO 16_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 17/Female KO 17_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 2/Female KO 2_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 3/Female KO 3_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 4/Female KO 4_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 5/Female KO 5_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 6/Female KO 6_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 7/Female KO 7_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 8/Female KO 8_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/BIN1smKO Female/Cell 9/Female KO 9_3ADVMLEG1L1_ch2.tif

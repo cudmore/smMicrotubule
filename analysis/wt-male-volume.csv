@@ -1,0 +1,45 @@
+path,file,cond,xVoxel,yVoxel,zVoxel,xGaussian,yGaussian,zGaussian,minThreshold,maxThresholdeshold,pixelCount_1,pixelCount_2,pixelCount_3
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_4_/4_1_5ADVMLEG1L1_ch2.tif,4_1_5ADVMLEG1L1_ch2.tif,wt-male.txt,0.121859,0.121859,0.430000,2,2,2,2,255,451316,None,None
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_5/5_5ADVMLEG1L1_ch2.tif,5_5ADVMLEG1L1_ch2.tif,wt-male.txt,0.138107,0.138107,0.430000,2,2,2,2,255,375330,117,46
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_6_/6_5ADVMLEG1L1_ch2.tif,6_5ADVMLEG1L1_ch2.tif,wt-male.txt,0.089874,0.089874,0.430000,2,2,2,2,255,743800,32,None
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_7/7_5ADVMLEG1L1_ch2.tif,7_5ADVMLEG1L1_ch2.tif,wt-male.txt,0.207160,0.207160,0.430000,2,2,2,2,255,307354,34,29
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_8/8_5ADVMLEG1L1_ch2.tif,8_5ADVMLEG1L1_ch2.tif,wt-male.txt,0.089874,0.089874,0.430000,2,2,2,2,255,646537,21,8
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_9/9_5ADVMLEG1L1_ch2.tif,9_5ADVMLEG1L1_ch2.tif,wt-male.txt,0.138107,0.138107,0.430000,2,2,2,2,255,530467,12,11
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_10_/10_5ADVMLEG1L1_ch2.tif,10_5ADVMLEG1L1_ch2.tif,wt-male.txt,0.205109,0.205109,0.430000,2,2,2,2,255,298823,786,121
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 1/Male WT cell 1_3ADVMLEG1L1_ch2.tif,Male WT cell 1_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.180139,0.180139,0.430000,2,2,2,2,255,54550,6258,1727
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 10/Male WT cell 10_3ADVMLEG1L1_ch2.tif,Male WT cell 10_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.125172,0.125172,0.430000,2,2,2,2,255,107502,1520,60
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 12/Male WT cell 12_3ADVMLEG1L1_ch2.tif,Male WT cell 12_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.108746,0.108746,0.430000,2,2,2,2,255,294454,664,528
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 13/Male WT cell 13_3ADVMLEG1L1_ch2.tif,Male WT cell 13_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.180139,0.180139,0.430000,2,2,2,2,255,54914,1268,564
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 14/Male WT cell 14_3ADVMLEG1L1_ch2.tif,Male WT cell 14_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.133652,0.133652,0.430000,2,2,2,2,255,173329,8785,1422
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 15/Male WT cell 15_3ADVMLEG1L1_ch2.tif,Male WT cell 15_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.147972,0.147972,0.430000,2,2,2,2,255,172022,40,None
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 17/Male WT cell 17_3ADVMLEG1L1_ch2.tif,Male WT cell 17_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.207160,0.207160,0.430000,2,2,2,2,255,80884,None,None
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 18/Male WT cell 18_3ADVMLEG1L1_ch2.tif,Male WT cell 18_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.188327,0.188327,0.430000,2,2,2,2,255,108837,167,124
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 19/Male WTcell 19_3ADVMLEG1L1_ch2.tif,Male WTcell 19_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.096354,0.096354,0.430000,2,2,2,2,255,466583,105,78
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 2/Male WT cell 2_3ADVMLEG1L1_ch2.tif,Male WT cell 2_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.172634,0.172634,0.430000,2,2,2,2,255,3206634,None,None
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 20/Male WTcell 20_3ADVMLEG1L1_ch2.tif,Male WTcell 20_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.153452,0.153452,0.430000,2,2,2,2,255,93998,2547,341
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 21/Male WTcell 21_3ADVMLEG1L1_ch2.tif,Male WTcell 21_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.197295,0.197295,0.430000,2,2,2,2,255,180546,1701,1569
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 22/Male WTcell 22_3ADVMLEG1L1_ch2.tif,Male WTcell 22_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.188327,0.188327,0.430000,2,2,2,2,255,155568,428,333
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 23/Male WTcell 23_3ADVMLEG1L1_ch2.tif,Male WTcell 23_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.188327,0.188327,0.430000,2,2,2,2,255,186152,857,637
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 24/Male WTcell 24_3ADVMLEG1L1_ch2.tif,Male WTcell 24_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.142869,0.142869,0.430000,2,2,2,2,255,223042,473,191
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 25/Male WTcell 25_3ADVMLEG1L1_ch2.tif,Male WTcell 25_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.165728,0.165728,0.430000,2,2,2,2,255,136989,405,269
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 26/Male WTcell 26_3ADVMLEG1L1_ch2.tif,Male WTcell 26_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.125552,0.125552,0.430000,2,2,2,2,255,1453823,605,243
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 27/Male WTcell 27_3ADVMLEG1L1_ch2.tif,Male WTcell 27_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.172634,0.172634,0.430000,2,2,2,2,255,200642,1883,1234
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 28/Male WTcell 28_3ADVMLEG1L1_ch2.tif,Male WTcell 28_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.142869,0.142869,0.430000,2,2,2,2,255,89624,434,73
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 29/Male WTcell 29_3ADVMLEG1L1_ch2.tif,Male WTcell 29_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.109032,0.109032,0.430000,2,2,2,2,255,536685,2358,1615
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 3/Male WT cell 3_3ADVMLEG1L1_ch2.tif,Male WT cell 3_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.141891,0.141891,0.430000,2,2,2,2,255,212347,575,430
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 30/Male WTcell 30_3ADVMLEG1L1_ch2.tif,Male WTcell 30_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.243718,0.243718,0.430000,2,2,2,2,255,78502,2463,195
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 4/Male WT cell 4_3ADVMLEG1L1_ch2.tif,Male WT cell 4_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.192707,0.192707,0.430000,2,2,2,2,255,54108,1892,1455
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 5/Male WT cell 5_3ADVMLEG1L1_ch2.tif,Male WT cell 5_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.089874,0.089874,0.430000,2,2,2,2,255,495444,121,92
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 6/Male WT cell 6_3ADVMLEG1L1_ch2.tif,Male WT cell 6_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.142869,0.142869,0.430000,2,2,2,2,255,174086,225,123
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 7/Male WT cell 7_3ADVMLEG1L1_ch2.tif,Male WT cell 7_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.188327,0.188327,0.430000,2,2,2,2,255,136026,927,157
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 9/Male WT cell 9_3ADVMLEG1L1_ch2.tif,Male WT cell 9_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.153452,0.153452,0.430000,2,2,2,2,255,71424,331,193
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 1/WT Male 1_3ADVMLEG1L1_ch2.tif,WT Male 1_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.180139,0.180139,0.430000,2,2,2,2,255,73103,1943,1335
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 10/WT Male 10_3ADVMLEG1L1_ch2.tif,WT Male 10_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.180139,0.180139,0.430000,2,2,2,2,255,57727,960,552
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 2/WT Male 2_3ADVMLEG1L1_ch2.tif,WT Male 2_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.165728,0.165728,0.430000,2,2,2,2,255,4526078,None,None
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 3/WT Male 3_3ADVMLEG1L1_ch2.tif,WT Male 3_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.276214,0.276214,0.430000,2,2,2,2,255,30048,25387,15319
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 4/WT Male 4_3ADVMLEG1L1_ch2.tif,WT Male 4_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.207160,0.207160,0.430000,2,2,2,2,255,50102,27684,1672
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 5/WT Male 5_3ADVMLEG1L1_ch2.tif,WT Male 5_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.258950,0.258950,0.430000,2,2,2,2,255,39752,1760,828
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 6/WT Male 6_3ADVMLEG1L1_ch2.tif,WT Male 6_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.089874,0.089874,0.430000,2,2,2,2,255,303160,4685,4214
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 7/WT Male 7_3ADVMLEG1L1_ch2.tif,WT Male 7_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.207160,0.207160,0.430000,2,2,2,2,255,47186,466,None
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 8/WT Male 8_3ADVMLEG1L1_ch2.tif,WT Male 8_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.180139,0.180139,0.430000,2,2,2,2,255,102602,1677,1548
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 9/WT Male 9_3ADVMLEG1L1_ch2.tif,WT Male 9_3ADVMLEG1L1_ch2.tif,wt-male.txt,0.153452,0.153452,0.430000,2,2,2,2,255,91643,767,142

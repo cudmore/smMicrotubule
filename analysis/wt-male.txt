@@ -1,0 +1,44 @@
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_4_/4_1_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_5/5_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_6_/6_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_7/7_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_8/8_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_9/9_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/191230/WT_Male/Cell_10_/10_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 1/Male WT cell 1_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 10/Male WT cell 10_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 12/Male WT cell 12_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 13/Male WT cell 13_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 14/Male WT cell 14_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 15/Male WT cell 15_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 17/Male WT cell 17_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 18/Male WT cell 18_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 19/Male WTcell 19_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 2/Male WT cell 2_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 20/Male WTcell 20_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 21/Male WTcell 21_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 22/Male WTcell 22_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 23/Male WTcell 23_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 24/Male WTcell 24_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 25/Male WTcell 25_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 26/Male WTcell 26_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 27/Male WTcell 27_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 28/Male WTcell 28_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 29/Male WTcell 29_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 3/Male WT cell 3_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 30/Male WTcell 30_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 4/Male WT cell 4_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 5/Male WT cell 5_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 6/Male WT cell 6_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 7/Male WT cell 7_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200414/WT Male/Cell 9/Male WT cell 9_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 1/WT Male 1_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 10/WT Male 10_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 2/WT Male 2_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 3/WT Male 3_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 4/WT Male 4_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 5/WT Male 5_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 6/WT Male 6_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 7/WT Male 7_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 8/WT Male 8_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Male/Cell 9/WT Male 9_3ADVMLEG1L1_ch2.tif

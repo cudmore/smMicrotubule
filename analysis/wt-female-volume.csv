@@ -1,0 +1,24 @@
+path,file,cond,xVoxel,yVoxel,zVoxel,xGaussian,yGaussian,zGaussian,minThreshold,maxThresholdeshold,pixelCount_1,pixelCount_2,pixelCount_3
+/Users/cudmore/box/data/sami/data/200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif,1_5ADVMLEG1L1_ch2.tif,wt-female.txt,0.209253,0.209253,0.430000,2,2,2,2,255,281650,168,72
+/Users/cudmore/box/data/sami/data/200108/WT_Female/Cell_7/7_5ADVMLEG1L1_ch2.tif,7_5ADVMLEG1L1_ch2.tif,wt-female.txt,0.089874,0.089874,0.430000,2,2,2,2,255,745295,467,60
+/Users/cudmore/box/data/sami/data/200108/WT_Female/Cell_8/8_5ADVMLEG1L1_ch2.tif,8_5ADVMLEG1L1_ch2.tif,wt-female.txt,0.089874,0.089874,0.430000,2,2,2,2,255,1009820,104,15
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 1/Female WT cell 1_3ADVMLEG1L1_ch2.tif,Female WT cell 1_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.199193,0.199193,0.430000,2,2,2,2,255,75150,581,481
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 10/Female WT cell 10_3ADVMLEG1L1_ch2.tif,Female WT cell 10_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.230178,0.230178,0.430000,2,2,2,2,255,41482,1941,1838
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 11/Female WT cell 11_3ADVMLEG1L1_ch2.tif,Female WT cell 11_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.207160,0.207160,0.430000,2,2,2,2,255,41123,1167,318
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 12/Female WT cell 12_3ADVMLEG1L1_ch2.tif,Female WT cell 12_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.197295,0.197295,0.430000,2,2,2,2,255,45441,973,833
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 13/Female WT cell 13_3ADVMLEG1L1_ch2.tif,Female WT cell 13_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.138107,0.138107,0.430000,2,2,2,2,255,97196,2764,2155
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 14/Female WT cell 14_3ADVMLEG1L1_ch2.tif,Female WT cell 14_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.188327,0.188327,0.430000,2,2,2,2,255,51037,2513,917
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 15/Female WT cell 15_3ADVMLEG1L1_ch2.tif,Female WT cell 15_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.236755,0.236755,0.430000,2,2,2,2,255,39884,783,488
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 16/Female WT cell 16_3ADVMLEG1L1_ch2.tif,Female WT cell 16_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.207160,0.207160,0.430000,2,2,2,2,255,47087,686,679
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 17/Female WT cell 17_3ADVMLEG1L1_ch2.tif,Female WT cell 17_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.133652,0.133652,0.430000,2,2,2,2,255,94548,803,790
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 18/Female WT cell 18_3ADVMLEG1L1_ch2.tif,Female WT cell 18_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.128671,0.128671,0.430000,2,2,2,2,255,84976,2796,2417
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 19/Female WT cell 19_3ADVMLEG1L1_ch2.tif,Female WT cell 19_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.180139,0.180139,0.430000,2,2,2,2,255,47448,809,773
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 2/Female WT cell 2_3ADVMLEG1L1_ch2.tif,Female WT cell 2_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.089874,0.089874,0.430000,2,2,2,2,255,362999,2849,1463
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 20/Female WT cell 20_3ADVMLEG1L1_ch2.tif,Female WT cell 20_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.153452,0.153452,0.430000,2,2,2,2,255,69682,2995,2297
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 3/Female WT cell 3_3ADVMLEG1L1_ch2.tif,Female WT cell 3_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.121859,0.121859,0.430000,2,2,2,2,255,459469,1842,1236
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 4/Female WT cell 4_3ADVMLEG1L1_ch2.tif,Female WT cell 4_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.158743,0.158743,0.430000,2,2,2,2,255,54794,211,111
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 5/Female WT cell 5_3ADVMLEG1L1_ch2.tif,Female WT cell 5_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.188327,0.188327,0.430000,2,2,2,2,255,72448,347,102
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 6/Female WT cell 6_3ADVMLEG1L1_ch2.tif,Female WT cell 6_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.258950,0.258950,0.430000,2,2,2,2,255,30658,749,182
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 7/Female WT cell 7_3ADVMLEG1L1_ch2.tif,Female WT cell 7_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.165728,0.165728,0.430000,2,2,2,2,255,89263,1616,1343
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 8/Female WT cell 8_3ADVMLEG1L1_ch2.tif,Female WT cell 8_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.180139,0.180139,0.430000,2,2,2,2,255,53642,13756,753
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 9/Female WT cell 9_3ADVMLEG1L1_ch2.tif,Female WT cell 9_3ADVMLEG1L1_ch2.tif,wt-female.txt,0.243718,0.243718,0.430000,2,2,2,2,255,36998,1184,1105

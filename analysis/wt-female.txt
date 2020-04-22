@@ -1,0 +1,23 @@
+/Users/cudmore/box/data/sami/data/200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/WT_Female/Cell_7/7_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200108/WT_Female/Cell_8/8_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 1/Female WT cell 1_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 10/Female WT cell 10_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 11/Female WT cell 11_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 12/Female WT cell 12_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 13/Female WT cell 13_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 14/Female WT cell 14_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 15/Female WT cell 15_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 16/Female WT cell 16_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 17/Female WT cell 17_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 18/Female WT cell 18_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 19/Female WT cell 19_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 2/Female WT cell 2_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 20/Female WT cell 20_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 3/Female WT cell 3_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 4/Female WT cell 4_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 5/Female WT cell 5_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 6/Female WT cell 6_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 7/Female WT cell 7_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 8/Female WT cell 8_3ADVMLEG1L1_ch2.tif
+/Users/cudmore/box/data/sami/data/200421/WT Female/Cell 9/Female WT cell 9_3ADVMLEG1L1_ch2.tif
