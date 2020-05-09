@@ -26,6 +26,8 @@ To simplify things, use [python/getFileList.py](python/getFileList.py)to quickly
 
 ### 3) Run [python/samiAnalysis.py](python/samiAnalysis.py) for each analysis/ batch `.txt` file
 
+This will use aics segmentation to make a filament mask and then use Skan to make a skeleton
+
 ```
 cd python
 python samiAnalysis.py batch=../analysis/wt-female.txt
@@ -69,7 +71,7 @@ This code uses The Allen Institute For Cell Science Segmentation (AICS-Segmentat
 
 Algorithm is as follows. Both the **`f3_param`** and **`minArea`** are parameters provided by the user. Basically, start with raw image, contrast adjust and smooth, generate mask and then use [Skan](https://jni.github.io/skan/) to create a skeleton from the mask.
 
-1) Automatically choose a contrast adjustment
+a) Automatically choose a contrast adjustment
 
 ```
 low_ratio, high_ratio = my_suggest_normalization_param(struct_img0)
@@ -77,13 +79,13 @@ intensity_scaling_param = [low_ratio, high_ratio]
 struct_img = intensity_normalization(struct_img0, scaling_param=intensity_scaling_param)
 ```
 
-2) Edge preserving smoothing (similar to median filter)
+b) Edge preserving smoothing (similar to median filter)
 
 ```
 structure_img_smooth = edge_preserving_smoothing_3d(struct_img)
 ```
 
-3) Convert the contrast adjusted and smoothed image to a binary mask
+c) Convert the contrast adjusted and smoothed image to a binary mask
 
 ```
 	f3_param=[[0.5, 0.005]]
@@ -103,13 +105,21 @@ structure_img_smooth = edge_preserving_smoothing_3d(struct_img)
 	seg = skimage.morphology.remove_small_objects(bw>0, min_size=minArea, connectivity=1, in_place=False)
 ```
 
-4) Generate a 1-pixel wide skeleton from the mask using [Skan](https://jni.github.io/skan/)
+d) Generate a 1-pixel wide skeleton from the mask using [Skan](https://jni.github.io/skan/)
 
 ```
 retDict0, mySkeleton = myAnalyzeSkeleton(out=out, imagePath=path) 
 ```
 
 ### 4) Volume analysis [fiji/samiVolume.py](fiji/samiVolume.py)
+
+Code is now in
+
+```
+/Users/cudmore/Sites/bImPy/examples/edt/samiVolume2.py 
+```
+
+**Do not use Fiji version of this code !!!!**
 
 This is entirly done in Fiji. Using the '3D ImageJ Suite' plugin from [https://imagejdocu.tudor.lu/plugin/stacks/3d_ij_suite/start](https://imagejdocu.tudor.lu/plugin/stacks/3d_ij_suite/start). The '3D ImageJ Suite' is not included in Fiji by default, please follow their install instructions.
 
@@ -172,6 +182,17 @@ cd python
 jupyter notebook
 ```
 
+## C) Calculate density of filaments in (full mask, eroded mask, ring mask)
+
+Use
+
+```
+/Users/cudmore/Sites/bImPy/examples/edt/samiDensity.py
+```
+
+This pulls the **3 masks** (full, eroded, ring) from results of samiVolume2.py and the **skeleton** from smMicrotubules/python/samiAnalysis.py
+
+It then calculates the density of filaments in each mask
 
 ## Utilities
 
@@ -248,16 +269,16 @@ docker --version
 
 What do you see? Should be like 'Docker version 19.03.8, build afacb8b'. If you do not see that then **STOP**. Maybe Quit and rerun Terminal and try again?
 
-3) Pull the `cudmore/mydocker` image
+3) Pull the `cudmore/smmicrotubule` image
 
 ```
-docker pull cudmore/mydocker
+docker pull cudmore/smmicrotubule
 ```
 
-run `cudmore/mydocker` in a web browser
+run `cudmore/smmicrotubule` in a web browser
 
 ```
-docker run -p 8080:8080 cudmore/mydocker
+docker run -p 8080:8080 cudmore/smmicrotubule
 ```
 
 The `docker run` command will return a bunch of `//` addresses like this:

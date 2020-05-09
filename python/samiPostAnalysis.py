@@ -1,6 +1,18 @@
 """
 Robert Cudmore
 20200418
+
+This will parse 4x output of samiAnalysis
+
+And combine it with outptut of samiVolume.py, e.g. density-results.csv
+
+20200503 added density result.
+
+	[done] Still need to add code to calculate number in (full mask, eroded, ring)
+
+	densityResultsPath = '../analysis/density-results.csv'
+	dfDensity = pd.read_csv(densityResultsPath)
+
 """
 
 import os
@@ -13,6 +25,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import scipy.stats
+
+import tifffile # for density functions
 
 import seaborn as sns
 
@@ -68,6 +82,528 @@ class samiPostAnalysis:
 
 		#print(self.df.head())
 		
+		#
+		# 20200503
+		# load density-results.csv (output of bimpy/python/samiVolume.py
+		"""
+		"""
+		densityResultsPath = '../analysis/density-results.csv'
+		self.dfDensity = pd.read_csv(densityResultsPath)
+		
+		# a dict of masks (so we don't have to open more than once
+		self.myMaskDict = OrderedDict() # used by self.densityLoadMasks()
+		
+	def densityGetOneFilePath(self, genotype, sex, myCellNumber):
+		"""
+		get path to one file, this will be in
+			/Users/cudmore/Desktop/samiVolume
+		"""
+		#print('densityGetOneFilePath() genotype:', genotype, 'sex:', sex, 'myCellNUmber:', myCellNumber, type(myCellNumber))		
+		
+		oneCell_df = self.dfDensity[ (self.dfDensity['genotype']==genotype) & (self.dfDensity['sex']==sex) & (self.dfDensity['myCellNumber']==myCellNumber)]
+
+		if oneCell_df.shape[0] == 0:
+			print('error: densityGetOneFilePath() did not find any rows')
+			return None
+		if oneCell_df.shape[0] > 1:
+			print('error: densityGetOneFilePath() got more than one row')
+			return None
+		
+		path = oneCell_df['path'].iloc[0]
+		
+		return path
+		
+	def densityLoadMasks(self, genotype, sex, myCellNumber, verbose=False):
+		"""
+		masked volumes are in samiVolume/ and correctly referenced from density-results.csv
+		
+		main self.df['path'] is something like '../data/200108/WT_Female/Cell_1/1_5ADVMLEG1L1_'
+		
+		need to convert to analysisPath to load masks
+		
+		each row of density-results.csv is a single cell file like
+			path: /Users/cudmore/Desktop/samiVolume/200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif
+		"""
+		
+		if verbose:
+			print('densityLoadMasks() genotype:', genotype, 'sex:', sex, 'myCellNumber:', myCellNumber)
+		
+		#analysisPath = '/Users/cudmore/Desktop/samiVolume'
+		
+		#
+		# fetch one line df corresponding to our cell
+		path = self.densityGetOneFilePath(genotype, sex, myCellNumber)
+		#
+		# make a base file loader
+		# path is like: /Users/cudmore/Desktop/samiVolume/200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif
+		baseFilePath = self._getFilePathNoExtension(path)
+		
+		# check if it already loaded
+		myKey = genotype + '_' + sex + '_' + str(int(myCellNumber))
+		#print('  myKey:', myKey)
+		if myKey in self.myMaskDict.keys():
+			# already loaded
+			if verbose:
+				print('  already loaded for myKey:', myKey)
+		else:
+			if verbose:
+				print('  loading from', baseFilePath)
+			
+			# do the load
+			if verbose:
+				print('  loading masks for myKey:', myKey)
+			self.myMaskDict[myKey] = OrderedDict()
+			
+			#
+			# load full mask
+			maskPath = baseFilePath + '_filledHolesMask.tif'
+			self.myMaskDict[myKey]['fullMask'] = tifffile.imread(maskPath)
+			#print('fullMask:', self.fullMask.shape)
+		
+			#
+			# load eroded mask
+			maskPath = baseFilePath + '_erodedMask.tif'
+			self.myMaskDict[myKey]['erodedMask'] = tifffile.imread(maskPath)
+			#print('erodedMask:', self.erodedMask.shape)
+		
+			#
+			# load ring mask
+			maskPath = baseFilePath + '_ringMask.tif'
+			self.myMaskDict[myKey]['ringMask'] = tifffile.imread(maskPath)
+			#print('ringMask:', self.ringMask.shape)
+	
+	def densityCalculateAll(self, pruneDict):
+		"""
+		go through (genotype, sex)
+		"""
+		
+		myPruneDict = pruneDict.copy()
+		
+		dfList = []
+		
+		#pruneDict = spa.getDefaultPruneDict()
+		for genotype, sex in itertools.product(self.genotypes, self.sexes): # nested loop
+			myPruneDict['genotype'] = genotype
+			myPruneDict['sex'] = sex
+			dfRet = self.densityCalculate(myPruneDict, myCellNumber=None) # all cells in (genotype,sex)
+			dfList.append(dfRet)
+		self.dfDensityAnalysis = pd.concat(dfList, axis=0, ignore_index=True)
+
+		return self.dfDensityAnalysis
+		
+	'''
+	def densityCompare(self, pruneDict):
+		"""
+		run densityCalculateAll() and then compare density in (ring vs eroded) within each group (genotype, sex)
+		
+		pass different value of (branch type, len) in pruneDict
+		
+		"""
+		
+		df = self.densityCalculateAll(pruneDict)
+	'''
+		
+	def densityCalculate(self, pruneDict, myCellNumber=None, verbose=False):
+		"""
+		assuming prune dict specifies 1 (genotype, sex)
+
+		calculate the density of skeleton branches in each of (full mask, eroded mask, ring mask)
+		
+		prunes main self.df with pruneDict (statName, minValue, branchType)
+		
+		todo: add prune dict to generate different analysis with (branchTypepe, length) !!!!!!!!!!!!!!!!!!!!
+		
+		pass myCellNumber=None for all cells in (genotype, sex)
+		
+		return:
+			df with all analysis
+		"""
+		
+		genotype = pruneDict['genotype']
+		sex = pruneDict['sex']		
+		
+		if verbose:
+			print('densityCalculate() genotype:', genotype, 'sex:', sex, 'myCellNumber:', myCellNumber)
+		
+		branchType = pruneDict['branchType']
+		statName = pruneDict['statName']
+		minValue = pruneDict['minValue']
+		
+		#
+		# prune based on (branchType, minValue of len3d)
+		df = self.getPruned(pruneDict)
+
+		if myCellNumber is None:
+			theseCellNumbers = df['myCellNumber'].unique().astype(int)
+		else:
+			theseCellNumbers = [myCellNumber]
+			
+		# make a new df that can span cell numbers, then we can use the same code we use for per cell mean len3d !!!
+		rowList = []
+		
+		for i in theseCellNumbers:
+			if verbose:
+				print('  cell i:', i)
+			
+			#
+			# get rows for cell from pruned
+			# todo: fix this, only using it for x/y/z voxel !!!!
+			dfCell = df[df['myCellNumber'] == i]
+			
+			#
+			# x/y/z voxel
+			xVoxel = dfCell['xVoxel'].iloc[0] # to get num pixel in um^3 and calculate volume
+			yVoxel = dfCell['yVoxel'].iloc[0] # 
+			zVoxel = dfCell['zVoxel'].iloc[0] # 
+			voxelVolume = xVoxel * yVoxel * zVoxel
+
+			#
+			# load masks (if necc). masks are in self.myMaskDict[myKey]
+			self.densityLoadMasks(genotype, sex, i)
+			
+			# count pixels in each mask (full, eroded, ring)
+			myKey = genotype + '_' + sex + '_' + str(int(i)) # key into self.myMaskDict[myKey]['ringMask']
+			#
+			myFullMask = self.myMaskDict[myKey]['fullMask']
+			myErodedMask = self.myMaskDict[myKey]['erodedMask']
+			myRingMask = self.myMaskDict[myKey]['ringMask']
+			#
+			nFullMask = numPixelsInFullMask = np.count_nonzero(myFullMask == 1) # number of pixels in each mask
+			nErodedMask = numPixelsInFullMask = np.count_nonzero(myErodedMask == 1)
+			nRingMask = numPixelsInFullMask = np.count_nonzero(myRingMask == 1)
+			
+			#
+			# each mask volume in um^3
+			vFullMask = nFullMask * voxelVolume
+			vErodedMask = nErodedMask * voxelVolume
+			vRingMask = nRingMask * voxelVolume
+			
+			
+			len3d = df[df['myCellNumber'] == i]['len3d'].values # what we will sum
+			
+			# (image_coord_src_0, image_coord_src_1, image_coord_src_2)
+			# src
+			zSrc = df[df['myCellNumber'] == i]['image_coord_src_0'].values
+			xSrc = df[df['myCellNumber'] == i]['image_coord_src_1'].values
+			ySrc = df[df['myCellNumber'] == i]['image_coord_src_2'].values
+			#print(i, xSrc, zSrc, zSrc)
+			# dst
+			zDst = df[df['myCellNumber'] == i]['image_coord_dst_0'].values
+			xDst = df[df['myCellNumber'] == i]['image_coord_dst_1'].values
+			yDst = df[df['myCellNumber'] == i]['image_coord_dst_2'].values
+			#print(i, xDst, yDst, zDst)
+			
+			#
+			# sum membership of each branch in (mask, eroded, ring)
+			lenInFullMask = 0
+			lenInErodedMask = 0
+			lenInRingMask = 0
+			numBranches = xSrc.shape[0] # assuming all the same length
+			if verbose:
+				print('  numBranches:', numBranches)
+			for j in range(numBranches):
+				#src
+				x1 = xSrc[j]
+				y1 = ySrc[j]
+				z1 = zSrc[j]
+				x1 = int(float(x1))
+				y1 = int(float(y1))
+				z1 = int(float(z1))
+				srcInFullMask = self.myMaskDict[myKey]['fullMask'][z1,x1,y1] == 1
+				srcInErodedMask = self.myMaskDict[myKey]['erodedMask'][z1,x1,y1] == 1
+				srcInRingMask = self.myMaskDict[myKey]['ringMask'][z1,x1,y1] == 1
+				
+				#dst
+				x2 = xDst[j]
+				y2 = yDst[j]
+				z2 = zDst[j]
+				x2 = int(float(x2))
+				y2 = int(float(y2))
+				z2 = int(float(z2))
+				dstInFullMask = self.myMaskDict[myKey]['fullMask'][z2,x2,y2] == 1
+				dstInErodedMask = self.myMaskDict[myKey]['erodedMask'][z2,x2,y2] == 1
+				dstInRingMask = self.myMaskDict[myKey]['ringMask'][z2,x2,y2] == 1
+
+				if srcInFullMask and dstInFullMask:
+					lenInFullMask += len3d[j]
+				if srcInErodedMask and dstInErodedMask:
+					lenInErodedMask += len3d[j]
+				if srcInRingMask and dstInRingMask:
+					lenInRingMask += len3d[j]
+
+			# end for j
+			
+			# density per mask
+			dFullMask = lenInFullMask / vFullMask if vFullMask>0 else np.nan
+			dErodedMask = lenInErodedMask / vErodedMask if vErodedMask>0 else np.nan
+			dRingMask = lenInRingMask / vRingMask if vRingMask>0 else np.nan
+			
+			dRingToEroded = dRingMask / dErodedMask if dErodedMask>0 else np.nan
+			dErodedToRing = dErodedMask / dRingMask if dRingMask>0 else np.nan
+			
+			'''
+			if dRingToEroded > 2:
+				print('  FLAG genotype:', genotype, 'sex:', sex, 'dRingToEroded:', dRingToEroded)
+			'''
+				
+			#print('lenInFullMask:', lenInFullMask, 'lenInErodedMask:', lenInErodedMask, 'lenInRingMask:', lenInRingMask)
+			rowDict = OrderedDict({
+				'genotype':genotype,
+				'sex':sex,
+				'myCellNumber':i, 
+				'branchType': branchType,					# parameters in pruneDict
+				'statName': statName,
+				'minValue': minValue,
+				'xVoxel': xVoxel,							# stack scaling
+				'yVoxel': yVoxel,
+				'zVoxel': zVoxel,
+				'voxelVolume': voxelVolume,
+				#
+				'nFullMask': nFullMask,						# pixels in each mask
+				'nErodedMask': nErodedMask,
+				'nRingMask': nRingMask,
+				#
+				'vFullMask': vFullMask,						# volume of each mask
+				'vErodedMask': vErodedMask,
+				'vRingMask': vRingMask,
+				#
+				'lenInFullMask':lenInFullMask,				# 3d length of branches in each mask
+				'lenInErodedMask':lenInErodedMask,
+				'lenInRingMask':lenInRingMask,
+				#
+				'dFullMask':dFullMask,						# density of branches in each mask
+				'dErodedMask':dErodedMask,
+				'dRingMask':dRingMask,
+				'dRingToEroded': dRingToEroded,
+				'dErodedToRing': dErodedToRing,
+				})
+				
+			# append for output
+			rowList.append(rowDict)
+		
+		# end cell i
+		
+		#
+		dfRet = pd.DataFrame(rowList)     
+		return dfRet
+			
+	def densityPlot(self, pruneDict, myStatName, ax=None):
+		"""
+		plots myStatName for each cell in self.dfDensityAnalysis
+		
+		no pruning
+		uses pruneDict to generate x-axis
+		
+		violon plot across genotype, sex is color (x) and pruneDict['statname'] (y)
+		
+		TODO: make new version of this to plot violin over mean per cell !!!
+			see jupyter notebook for code !!!
+		"""
+				
+		'''
+		if doCellMean:
+			myStatName = 'mean'
+			df = self.getCellMean(pruneDict, verbose=False) # need to use 'mean' as stat
+		else:
+			myStatName = pruneDict['statName']
+			df = self.getPruned(pruneDict)
+		'''
+				
+		df = self.dfDensityAnalysis
+		
+		xOrder = self.genotypes
+		hueOrder = self.sexes
+		hue = 'sex'
+				
+		doShow = False
+		if ax is None:
+			fig, ax = plt.subplots(1, 1, figsize=(10,5))
+			doShow = True
+		#
+		# violin
+		g = sns.violinplot(x="genotype", y=myStatName, order=xOrder, hue_order=hueOrder, hue=hue, data=df, ax=ax)
+		
+		xlabels = ['{:,.1f}'.format(x) for x in g.get_xticks()]
+		g.set_xticklabels(xlabels)
+
+		#
+		# strip
+		# when kind="strip"  we also need dodge=True to seperate hue (e.g. sex)
+		g = sns.stripplot(x="genotype", y=myStatName,
+			order=xOrder, hue_order=hueOrder, hue=hue,
+			dodge=True, palette=['#91bfdb','#fc8d59'], data=df, ax=ax)
+
+		# draw horizontal line at y=1
+		ax.axhline(1, ls='--')
+		
+		myFontSize = 16
+
+		g.legend(bbox_to_anchor=(1, 1), ncol=1)
+		# i want to remove duplicate legends???
+		# this removes the entire legend?
+		# see: diff b/w/ ._legend and .legend_ https://stackoverflow.com/questions/54781243/hide-legend-from-seaborn-pairplot
+		#g.legend_.remove()
+		
+		
+		# title
+		ax.set_title('Per cell {0}'.format(myStatName), fontsize=myFontSize)
+		#ax.set_title('Density Ring / Density Eroded (per cell)', fontsize=myFontSize)
+				
+		g.set_xlabel(g.get_xlabel(), size = myFontSize)
+		g.set_ylabel(g.get_ylabel(), size = myFontSize)
+		#
+		g.set_xticklabels(g.get_xticks(), size = myFontSize)
+		g.set_yticklabels(g.get_yticks(), size = myFontSize)
+
+		# yticklabels were sometimes blowing up into 1.000000000001
+		ylabels = [str(round(y,1)) for y in g.get_yticks()] # used below
+		g.set_yticklabels(ylabels, size = myFontSize) # using from above
+
+		# this uses self.df
+		doCellMean = True # used to just get the count in each (genotype, sex)
+		self._plotCondMeanLegend(pruneDict, ax, doCellMean)
+
+		if doShow:
+			plt.show()
+		
+		#
+		return g
+
+	def densityGetCellMean(self, pruneDict, statName):
+		"""
+		todo: fix this, we are not getting mean across cells (we already have it)
+		return a df with mean across cells
+		
+		stat name in (dErodedMask	dRingMask	dRingToEroded	dErodedToRing)
+		"""
+		
+		#statName = pruneDict['statName']
+		
+		# todo: for now, pretty sure this only works for one stat
+		theseColumns = statName #pruneDict['statName']
+		statFuncList = [np.mean, np.std, scipy.stats.sem, 'count']
+		
+		# todo: replace this by self.getPruned()
+		# we are using pre calculated densities (already pruned)
+		#df = self.getPruned(pruneDict) # get pruned should be used just to get one genotype/sex
+		
+		df = self.densityGetOneGenotypeAndSex(pruneDict)
+		#df = self.dfDensityAnalysis # calculated for all (genotype, sex) in densityCalculateAll()
+		
+		# generate the mean for each (genotype, sex) across cell numbers
+		df = df.groupby(['genotype', 'sex', 'myCellNumber'])[theseColumns].agg(statFuncList)
+		
+		# never used this
+		#df.columns = ["".join(x) for x in df.columns.ravel()]
+		
+		# this was working but columns become (mean,std,sem,count), e.g. we loose stat name
+		df.columns = df.columns.map(''.join)
+		df = df.reset_index()
+
+		return df
+
+	def densityGetPairwiseGroupComparison(self, pruneDict, statName):
+		"""
+		Get all pairwise comparisons between our different 'groups'.
+		For a 4x4 matrix, we get the upper right triangle including diagonal
+		
+			[('wt', 'f'), ('wt', 'm'), ('ko', 'f'), ('ko', 'm')]
+		
+		doCellMean = Fale, will compare with all measurements across all cells
+			cells with different number of branches will contribute different weights (bad)
+		doCellMean = True, compare the mean of each cell (better)
+		
+		IMPORTANT
+			If I change pruneDict, it propogates back to caller????
+		"""
+		
+		localPruneDict = pruneDict.copy()
+		
+		myStat = 'mean'
+
+		# there are 4 groups
+		groupsList = list(itertools.product(self.genotypes, self.sexes))
+		n = len(groupsList)
+
+		rowList = []
+		rowStrList = [] # to output comma separated (genotype,sex), m, sd,se, n, ...p
+		
+		for iIdx, (iGenotype,iSex) in enumerate(itertools.product(self.genotypes, self.sexes)): 
+			localPruneDict['genotype'] = iGenotype
+			localPruneDict['sex'] = iSex
+			
+			dfi = self.densityGetCellMean(localPruneDict, statName) # need to use 'mean' as stat
+
+			iValues = dfi[myStat].values
+
+			#
+			rowDict = {'groups':(iGenotype,iSex)} # first column is group name, making a 4x4 df
+			
+			for jIdx, (jGenotype,jSex) in enumerate(itertools.product(self.genotypes, self.sexes)): 
+				if jIdx >= iIdx:
+					localPruneDict['genotype'] = jGenotype
+					localPruneDict['sex'] = jSex
+					
+					dfj = self.densityGetCellMean(localPruneDict, statName) # need to use 'mean' as stat
+
+					jValues = dfj[myStat].values
+					#
+					#t, prob = scipy.stats.ttest_ind(iValues, jValues) # this is a two-tailed test
+					'''
+					print('getPairwiseGroupComparison()', iIdx, jIdx, 'i', iValues.shape, 'j', jValues.shape)
+					if iIdx==0 and jIdx==2:
+						print('iValues:')
+						print(iValues)
+						print('jValues:')
+						print(jValues)
+					'''
+					t, prob = self.myStatTest(localPruneDict, iValues, jValues)
+					#
+					rowDict[(jGenotype,jSex)] = prob
+
+					rowDict2 = self._getStatStr(localPruneDict, (iGenotype,iSex), iValues, (jGenotype,jSex), jValues, asDict=True)
+					rowStrList += rowDict2
+				else:
+					rowDict[(jGenotype,jSex)] = ''
+			# after j loop, inside i loop
+			rowList.append(rowDict)
+								
+		dfRet = pd.DataFrame(rowList) # table of p-values
+		dfRet2 = pd.DataFrame(rowStrList) # rows of each (genotype - sex) with comparisons to previous
+		
+		#
+		return dfRet, dfRet2
+
+	def densityGetOneGenotypeAndSex(self, pruneDict):
+		"""
+		"""
+		
+		df = self.dfDensityAnalysis
+
+		# reduce by genotype
+		genotypeList = pruneDict['genotype']
+		if not isinstance(genotypeList,list): genotypeList = [genotypeList]
+		if genotypeList:
+			df = df[df['genotype'].isin(genotypeList)]
+		
+		# reduce by sex
+		sexList = pruneDict['sex']
+		if not isinstance(sexList,list): sexList = [sexList]
+		if sexList:
+			df = df[df['sex'].isin(sexList)]
+		
+		return df
+	
+	def _getFilePathNoExtension(self, path):
+		"""
+		given full file path, return file path without extension
+		"""
+		baseFilePath = ''
+		tmpPath, tmpFileName = os.path.split(path)
+		tmpFileNameNoExtension, tmpExtension = tmpFileName.split('.')
+		baseFilePath = os.path.join(tmpPath, tmpFileNameNoExtension)
+		return baseFilePath
+	
 	def _getCondition(self, genotype, sex):
 		"""
 		return: ('wtf', 'wtm', 'kof', 'kom')
@@ -364,11 +900,12 @@ class samiPostAnalysis:
 		
 			[('wt', 'f'), ('wt', 'm'), ('ko', 'f'), ('ko', 'm')]
 		
-		This pools all measurements across all cells (does not group by cell)
+		doCellMean = Fale, will compare with all measurements across all cells
+			cells with different number of branches will contribute different weights (bad)
+		doCellMean = True, compare the mean of each cell (better)
 		
-		todo: rewrite this to use per cell mean
-		
-		IMPORTANT, if I chase pruneDict, it propogates back to caller????
+		IMPORTANT
+			If I change pruneDict, it propogates back to caller????
 		"""
 		
 		localPruneDict = pruneDict.copy()
@@ -427,8 +964,8 @@ class samiPostAnalysis:
 			# after j loop, inside i loop
 			rowList.append(rowDict)
 								
-		dfRet = pd.DataFrame(rowList)     
-		dfRet2 = pd.DataFrame(rowStrList)     
+		dfRet = pd.DataFrame(rowList) # table of p-values
+		dfRet2 = pd.DataFrame(rowStrList) # rows of each (genotype - sex) with comparisons to previous
 		
 		#
 		return dfRet, dfRet2
@@ -467,7 +1004,7 @@ class samiPostAnalysis:
 		ax.set_xticks([-0.2,0.2, 0.8,1.2])
 		ax.set_xticklabels(xAxisLabels)
 		
-	def plotCondMean(self,pruneDict=None, doCellMean=None, ax=None):
+	def plotCondMean(self, pruneDict=None, doCellMean=None, ax=None):
 		"""
 		all branch length pooled, todo: do this per cell
 		violon plot across genotype, sex is color (x) and pruneDict['statname'] (y)
@@ -639,7 +1176,7 @@ if __name__ == '__main__':
 		#with np.printoptions(precision=5, suppress=True): # force a pretty-print
 		#	print(result)
 	
-	if 1:
+	if 0:
 		pruneDict = spa.getDefaultPruneDict()
 		print('pruneDict:', pruneDict)
 		pruneDict['branchType'] = [2]
@@ -665,4 +1202,80 @@ if __name__ == '__main__':
 		pruneDict['branchType'] = [2]
 		pruneDict['statTest'] = 'T-Test'
 		df1, df2 = spa.getPairwiseGroupComparison(pruneDict, doCellMean=True)
+		
+	if 0:
+		#spa.densityLoadMasks('wt', 'female', 0)
+		#spa.densityLoadMasks('wt', 'female', 0)
+		
+		#dfRet = spa.densityCalculate('wt', 'female', myCellNumber=0) # pass myCellNumber=None for all cells in (genotype, sex)
+		#print(dfRet)
+		
+		#dfRet = spa.densityCalculate('wt', 'female', myCellNumber=1)
+		#print(dfRet)
+
+		# this is CRAZY that this is so fast !!!!!!!!!!
+		
+		
+		#
+		# todo: now I need to do each of these for different (branchType, branch length) !!!!!!
+		
+		pruneDict = spa.getDefaultPruneDict()
+
+		pruneDict['genotype'] = 'wt'
+		pruneDict['sex'] = 'female'
+		dfRet = spa.densityCalculate(pruneDict, myCellNumber=None) # all cells in (genotype,sex)
+		print('wt-female')
+		print(dfRet)
+		
+		pruneDict['genotype'] = 'wt'
+		pruneDict['sex'] = 'male'
+		dfRet = spa.densityCalculate(pruneDict, myCellNumber=None) # all cells in (genotype,sex)
+		print('ko-female')
+		print(dfRet)
+
+		pruneDict['genotype'] = 'ko'
+		pruneDict['sex'] = 'female'
+		dfRet = spa.densityCalculate(pruneDict, myCellNumber=None) # all cells in (genotype,sex)
+		print('wt-male')
+		print(dfRet)
+		
+		pruneDict['genotype'] = 'ko'
+		pruneDict['sex'] = 'male'
+		dfRet = spa.densityCalculate(pruneDict, myCellNumber=None) # all cells in (genotype,sex)
+		print('ko-male')
+		print(dfRet)
+
+	if 0:
+		pruneDict = spa.getDefaultPruneDict()
+		#pruneDict['genotype'] = 'wt'
+		#pruneDict['sex'] = 'female'
+		pruneDict['statName'] = 'len3d'
+		pruneDict['minValue'] = 1
+		pruneDict['branchType'] = [2]
+
+		spa.densityCalculateAll(pruneDict) # uses (statName, minValue, branchType)
+		#spa.densityPlot(pruneDict, 'dErodedToRing') # pass in one of (dFullMask  dErodedMask  dRingMask  dRingVsErodedRatio)
+		spa.densityPlot(pruneDict, 'dRingToEroded') # pass in one of (dFullMask  dErodedMask  dRingMask  dRingVsErodedRatio)
+		
+		# todo: run stats on dRing vs dEroded
+	
+	if 1:
+		pruneDict = spa.getDefaultPruneDict()
+		spa.densityCalculateAll(pruneDict) # uses (statName, minValue, branchType)
+
+		statName = 'dErodedMask'
+		df1, df2 = spa.densityGetPairwiseGroupComparison(pruneDict, statName)
+		print(df1)
+		print(df2)
+		
+		'''
+		pruneDict['genotype'] = 'wt'
+		pruneDict['sex'] = 'female'
+		df = spa.densityGetCellMean(pruneDict, statName)
+		print(df)
+		'''
+		
+		
+		
+		
 		

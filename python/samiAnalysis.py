@@ -34,11 +34,12 @@ To run this code:
 		conda activate segmentation
 
 	change back into folder where this file lives:
-		cd /Users/cudmore/box/data/sami/
+		#cd /Users/cudmore/box/data/sami/
+		cd /Users/cudmore/Sites/smMicrotubule/python
 	
 	run it:
 		#python samiAnalysis.py
-		python samiAnalysis.py batch=analysis/wt-male.txt 
+		python samiAnalysis.py batch=../analysis/wt-female.txt 
 	
 	remember, I was using original recipe from jupyter notebook in:
 		notebooks/playground_filament3d.ipynb
@@ -97,15 +98,33 @@ def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None):
 	
 	print('    === myAnalyzeSkeleton() maskData.shape:', maskData.shape)
 	
+	##
+	##
 	# make a 1-pixel skeleton from volume mask (similar to Fiji Skeletonize)
 	mySkeleton = morphology.skeletonize_3d(maskData)
-
+	##
+	##
+	
+	##
+	##
 	# analyze the skeleton (similar to Fiji Analyze Skeleton)
-	mySkanSkel = skan.Skeleton(mySkeleton)
-
+	## BE SURE TO INCLUDE VOXEL SIZE HERE !!!!!! 20200503
+	mySpacing_ = (zVoxel, xVoxel, yVoxel)
+	mySkanSkel = skan.Skeleton(mySkeleton, spacing=mySpacing_)
+	##
+	##
+	
 	# look at the results
 	branch_data = skan.summarize(mySkanSkel) # branch_data is a pandas dataframe
 	nBranches = branch_data.shape[0]
+	
+	# working on eroded/ring density 20200501
+	# save entire skan analysis as csv
+	tmpFolder, tmpFileName = os.path.split(imagePath)
+	tmpFileNameNoExtension, tmpExtension = tmpFileName.split('.')
+	saveSkelPath = os.path.join(tmpFolder, tmpFileNameNoExtension + '_skel.csv')
+	print('saving skan results to saveSkelPath:', saveSkelPath)
+	branch_data.to_csv(saveSkelPath)
 	
 	#
 	# convert everything to nump arrays
@@ -116,8 +135,11 @@ def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None):
 
 	#
 	# scale
+	# 20200503 TRYING TO DO THIS WHEN CALLING skan.Skeleton(mySkeleton, spacing=mySpacing_) !!!!!!!!!!!!!!!!!!!!!!!
+	'''
 	branchDistance = np.multiply(branchDistance, xVoxel)
 	euclideanDistance = np.multiply(euclideanDistance, xVoxel)
+	'''
 	# this will print 'divide by zero encountered in true_divide' and value will become inf
 	tortuosity = np.divide(branchDistance, euclideanDistance) # might fail on divide by 0
 	
@@ -133,14 +155,33 @@ def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None):
 
 	# todo: search for 0 values in (branchDistance, euclideanDistance)
 	
+	# 20200503 working on samiPostAnalysis density
+	# we need all the src/dst point so we can quickly determine if they are in mask (full, eroded, ring)
+	# 'image-coord-src-0', 'image-coord-src-1', 'image-coord-src-2', 'image-coord-dst-0', 'image-coord-dst-1', 'image-coord-dst-2'
+	image_coord_src_0 = branch_data['image-coord-src-0'].to_numpy()
+	image_coord_src_1 = branch_data['image-coord-src-1'].to_numpy()
+	image_coord_src_2 = branch_data['image-coord-src-2'].to_numpy()
+	image_coord_dst_0 = branch_data['image-coord-dst-0'].to_numpy()
+	image_coord_dst_1 = branch_data['image-coord-dst-1'].to_numpy()
+	image_coord_dst_2 = branch_data['image-coord-dst-2'].to_numpy()
+	retDict['data']['image_coord_src_0'] = image_coord_src_0
+	retDict['data']['image_coord_src_1'] = image_coord_src_1
+	retDict['data']['image_coord_src_2'] = image_coord_src_2
+	retDict['data']['image_coord_dst_0'] = image_coord_dst_0
+	retDict['data']['image_coord_dst_1'] = image_coord_dst_1
+	retDict['data']['image_coord_dst_2'] = image_coord_dst_2
+	
 	return retDict, mySkeleton # returning mySkeleton so we can save it
 	
-def run(path, f3_param=[[1, 0.01]], minArea=20, saveNumber=0):
+def myRun(path, f3_param=[[1, 0.01]], minArea=20, saveNumber=0):
 	"""
 	use aicssegmentation to pre-process raw data and then make/save a 3D mask
 	"""
-	print('    === run() path:', path, 'f3_param:', f3_param, 'minArea:', minArea, 'saveNumber:', saveNumber)
+	print('    === myRun() path:', path, 'f3_param:', f3_param, 'minArea:', minArea, 'saveNumber:', saveNumber)
 		
+	if not os.path.isfile(path):
+		return None
+	
 	# load the data
 	reader = AICSImage(path) 
 	IMG = reader.data.astype(np.float32)
@@ -247,11 +288,17 @@ def parseBatchFile(path):
 	"""
 	given a file with one path per line, return a list paths
 	"""
+	retList = []
 	with open(path) as f:
 		content = f.readlines()
 	# remove whitespace characters like `\n` at the end of each line
 	content = [x.strip() for x in content] 
-	return content
+	for line in content:
+		if line.startswith('#'):
+			continue
+		else:
+			retList.append(line)
+	return retList
 	
 if __name__ == '__main__':
 		
@@ -281,7 +328,7 @@ if __name__ == '__main__':
 			# open specified file and make a list of path
 			#os.path.splitext(path)[0]
 			tmp, batchFilePath = arg.split('=')
-			pathList = parseBatchFile(batchFilePath)
+			pathList = parseBatchFile(batchFilePath) ## LOCAL FUNCTION
 			savePath = os.path.splitext(batchFilePath)[0]
 			batchFileNoExtension = os.path.splitext(os.path.basename(batchFilePath))[0]
 			sheetName = batchFileNoExtension
@@ -310,14 +357,15 @@ if __name__ == '__main__':
 	'''
 
 	# put all results in pandas df, like ('filename', 'path', 'genotype', 'sex', 'branchType', 'len3d', 'euclideanDist', 'tort')
-	column_names = ['myCellNumber', 'filename', 'genotype', 'sex', 'branchType', 'len3d', 'euclideanDist', 'tortuosity', 'path']
+	column_names = ['myCellNumber', 'filename', 'genotype', 'sex', 'xVoxel', 'yVoxel', 'zVoxel', 'branchType', 'len3d', 'euclideanDist', 'tortuosity', 'path']
 	dfMaster = pd.DataFrame(columns = column_names)
 	
 	resultsList = []
 	#pathList = [path]
+	nPathList = len(pathList)
 	for myCellNumber, path in enumerate(pathList):	
 	
-		print('\n***')
+		print('\n*** myCellNumber:', myCellNumber, 'of', nPathList)
 		print('*** path:', path)
 		#print('    fileName:', fileName)
 		#print('    fileNameNoExtension:', fileNameNoExtension)
@@ -328,7 +376,11 @@ if __name__ == '__main__':
 		f3_param=[[0.5, 0.005]]
 		minArea=20
 		# run the masking and skeletonization and append to list
-		retDict = run(path, f3_param, minArea=minArea, saveNumber=saveNumber)
+		retDict = myRun(path, f3_param, minArea=minArea, saveNumber=saveNumber)
+		if retDict is None:
+			print('\n\n\n                            ERROR: File not found path:', path, '\n\n\n')
+			continue
+		
 		resultsList.append(retDict)
 		
 		# this allows us to use different detection parameters and save _mask_<n> and _skel_<n>
@@ -340,7 +392,7 @@ if __name__ == '__main__':
 		#minArea=40
 		minArea=20
 		# run the masking and skeletonization and append to list
-		retDict = run(path, f3_param, minArea=minArea, saveNumber=saveNumber)
+		retDict = myRun(path, f3_param, minArea=minArea, saveNumber=saveNumber)
 		resultsList.append(retDict)
 		'''
 		
@@ -357,7 +409,19 @@ if __name__ == '__main__':
 		df2['filename'] = os.path.basename(path) # fills in all rows
 		df2['genotype'] = genotype # fills in all rows, from name of batch=batFilePath, e.g. wt-female.txt
 		df2['sex'] = sex # fills in all rows
+		df2['xVoxel'] = retDict['xVoxel'] # fills in all rows
+		df2['yVoxel'] = retDict['yVoxel'] # fills in all rows
+		df2['zVoxel'] = retDict['zVoxel'] # fills in all rows
 		df2['path'] = path # fills in all rows
+		
+		# 20200503 working on density analysis
+		# ['data']['image_coord_src_0']
+		df2['image_coord_src_0'] = retDict['data']['image_coord_src_0']
+		df2['image_coord_src_1'] = retDict['data']['image_coord_src_1']
+		df2['image_coord_src_2'] = retDict['data']['image_coord_src_2']
+		df2['image_coord_dst_0'] = retDict['data']['image_coord_dst_0']
+		df2['image_coord_dst_1'] = retDict['data']['image_coord_dst_1']
+		df2['image_coord_dst_2'] = retDict['data']['image_coord_dst_2']
 		
 		# append to master
 		dfMaster = dfMaster.append(df2, ignore_index = True) 

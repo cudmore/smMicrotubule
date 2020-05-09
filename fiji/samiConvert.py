@@ -1,6 +1,28 @@
 
 """
-This Fiji Jython script will convert a two channel .oir xxx file into 2 (two) channel .tif files
+
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+                                        THIS NEEDS TO BE RUN IN FIJI 2017 !!!!!!!!!!!!!!!!!
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+******** WARNING ***********
+
+
+This Fiji Jython script will convert a two channel .oir file into 2 (two) channel .tif files
 
 Run this inside Fiji by selecting menu:
 	Plugins - Macro - Run...
@@ -37,10 +59,17 @@ from ij.process import ImageConverter # by default convert to 8-bit will scale, 
 
 from loci.plugins import BF
 
-#path = '/Users/cudmore/box/data/sami/Cell_1/1_5ADVMLEG1L1.oir'
+
+# lifeline version is 1.51n99
+# newer (April 2020) version is 1.52p99
+fijiVersion = IJ.getFullVersion()
+fijiVersion = str(fijiVersion)
+print('simpleConvert() is running in ImageJ/Fiji:', fijiVersion)
+goodVersion = fijiVersion.find('1.51') != -1
 
 def myConvert(path='', imp=None):
 	if path == '' and imp is None:
+		# NOT USED
 		# ask user for file. I do not know how to handle when users hits cancel??? Script will just fail
 		notUsedBy_oxs = 'Open a two-channel deconvoluted .oir file'
 		path = OpenDialog(notUsedBy_oxs).getPath()
@@ -93,6 +122,23 @@ def myConvert(path='', imp=None):
 	#IJ.close() # close channel 2 ... this does not work
 	windowName_notSure.close()
 	
+	
+	# save channel 3
+	windowName = 'C3-' + fileName
+	print(' .   ch3 windowName:', windowName)
+	IJ.selectWindow(windowName)
+	windowName_notSure = WindowManager.getImage(windowName)
+	if windowName_notSure is not None:
+		saveFilePath = os.path.splitext(path)[0] + '_ch3.tif'
+		# remove spaces
+		#saveFilePath = saveFilePath.replace(' ', '_')
+		print('    saving', saveFilePath)
+		IJ.save(windowName_notSure, saveFilePath)
+		#IJ.run("Save", 'save=' + saveFilePath)
+		#IJ.close() # close channel 2 ... this does not work
+		windowName_notSure.close()
+	else:
+		print('no channel 3')
 	
 	# close all the windows ... this does not work
 	'''
@@ -147,7 +193,7 @@ if __name__ in ['__builtin__','__main__']:
 		elif arg.startswith('batch='):
 			tmp, batchFilePath = arg.split('=')
 			print('processing batch file:', batchFilePath)
-			pathList = parseBatchFile(batchFilePath)
+			pathList = parseBatchFile(batchFilePath) # get list from file
 			savePath = os.path.splitext(batchFilePath)[0]
 			print(' .   savePath:', savePath)
 			batchFile = os.path.basename(batchFilePath)
@@ -167,21 +213,31 @@ if __name__ in ['__builtin__','__main__']:
 				resultList.append(result)
 		closeAll()
 	else:
-		# specify path here
-		# .endswith('_3ADVMLEG1L1.oir')
-		#folderPath = '/Users/cudmore/box/data/sami/data/200414'
-		folderPath = '/Users/cudmore/box/data/sami/data/200421'
-	
+		# specify path here		
+		#folderPath = '/Users/cudmore/Sites/smMicrotubule/data/191230' #done
+		#folderPath = '/Users/cudmore/Sites/smMicrotubule/data/200108' #done
+		#folderPath = '/Users/cudmore/Sites/smMicrotubule/data/200414' #done
+		folderPath = '/Users/cudmore/Sites/smMicrotubule/data/200421'
+		folderPath = '/Users/cudmore/Sites/smMicrotubule/data/191230/BIN1_smKO_Male/Cell_12'
+		
 		print('folderPath:', folderPath)
 
-		for dirpath, dirnames, files in os.walk(folderPath):
-			for name in files:
-				if name.endswith('_3ADVMLEG1L1.oir'):
-					filePath = os.path.join(dirpath, name)
-					#x,y,z = readVoxelSize(filePath, verbose=False)
-					print('    ', filePath)
-					myConvert(path=filePath, imp=None)
+		#endsWithList = ['_3ADVMLEG1L1.oir', '_3ADVMLEG1L1.oir']
 		
+		if not os.path.isdir(folderPath):
+			print('ERROR: did not find folderPath:', folderPath)
+		
+		if goodVersion:
+			for dirpath, dirnames, files in os.walk(folderPath):
+				for name in files:
+					if name.endswith('_3ADVMLEG1L1.oir') or name.endswith('_5ADVMLEG1L1.oir'):
+						filePath = os.path.join(dirpath, name)
+						#x,y,z = readVoxelSize(filePath, verbose=False)
+						print('    ', filePath)
+						myConvert(path=filePath, imp=None)
+		else:
+			print('ERROR: MUST BE RUN IN FIJI LIFELINE VERSION 1.51      ----->>>>    ABORTED')
+			
 		'''
 		batchFilePath = '/Users/cudmore/box/data/sami/batchConvert.txt'
 		pathList = parseBatchFile(batchFilePath)

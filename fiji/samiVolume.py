@@ -82,6 +82,7 @@ def myRun(path=None, imp=None):
 		print(' .  myRun() path:', path)
 		theRet['path'] = path
 		theRet['file'] = os.path.split(path)[1]
+		pathNoExtension = os.path.splitext(path)[0]
 		imp = IJ.openImage(path)
 		imp.show()
 	elif imp is not None:
@@ -92,6 +93,7 @@ def myRun(path=None, imp=None):
 		if myFileInfo is not None:
 			#print('myFileFinfo:', myFileInfo.directory, myFileInfo.fileName)
 			tmpPath = os.path.join(myFileInfo.directory, myFileInfo.fileName)
+			pathNoExtension = os.path.splitext(tmpPath)[0]
 			theRet['path'] = tmpPath
 			theRet['file'] = myFileInfo.fileName
 		else:
@@ -134,8 +136,8 @@ def myRun(path=None, imp=None):
 	#IJ.setThreshold(2, 255);
 	theRet['minThreshold'] = minThreshold
 	theRet['maxThresholdeshold'] = maxThreshold
-	IJ.setThreshold(minThreshold, maxThreshold);
-	IJ.run("Convert to Mask", "method=Default background=Dark list");
+	IJ.setThreshold(minThreshold, maxThreshold)
+	IJ.run("Convert to Mask", "method=Default background=Dark list")
 
 	#
 	# fill holes
@@ -169,7 +171,15 @@ def myRun(path=None, imp=None):
 		#print(' .   label:', labelIdx, 'pixelCount:', pixelCount)
 		if labelIdx >= 3:
 			break
-			
+	
+	#
+	# todo: we need to make 2 copies of the mask, one that is reduced (intracellular) and the remaining shell (membrane)
+	
+	#
+	# save the mask
+	maskFilePath = os.path.join(pathNoExtension, '_dvVolMask_Full.tif')
+	#IJ.save
+	
 	return theRet
 
 #####################################################################
