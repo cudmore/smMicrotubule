@@ -4,7 +4,8 @@
 ../data/200108/BIN1smKO_Female/Cell_5/5_5ADVMLEG1L1_ch2.tif
 ../data/200108/BIN1smKO_Female/Cell_6/6_5ADVMLEG1L1_ch2.tif
 ../data/200108/BIN1smKO_Female/Cell_9/9_5ADVMLEG1L1_ch2.tif
-../data/200108/BIN1smKO_Female/Cell_10/10_ch2.tif
+# want to exclude the following but samiPostAnalysis is getting tripped up
+#../data/200108/BIN1smKO_Female/Cell_10/10_ch2.tif
 ../data/200108/BIN1smKO_Female/Cell_11/11_5ADVMLEG1L1_ch2.tif
 ../data/200421/BIN1smKO Female/Cell 1/Female KOl 1_3ADVMLEG1L1_ch2.tif
 ../data/200421/BIN1smKO Female/Cell 10/Female KO 10_3ADVMLEG1L1_ch2.tif

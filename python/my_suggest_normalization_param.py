@@ -44,8 +44,8 @@ def my_suggest_normalization_param(structure_img0, verbose=False):
 			low_ratio = low_i-0.5
 			break
 
-	print(f'    So ... suggested parameter for intensity_scaling_param normalization is [{low_ratio}, {up_ratio}]')
 	if verbose:
+		print(f'   So ... suggested parameter for intensity_scaling_param normalization is [{low_ratio}, {up_ratio}]')
 		print('    To further enhance the contrast: You may increase the first value (may loss some dim parts), or decrease the second value' +
 			  '    (may loss some texture in super bright regions)')
 		print('    To slightly reduce the contrast: You may decrease the first value, or increase the second value')

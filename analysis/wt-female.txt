@@ -1,6 +1,8 @@
 ../data/200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif
 ../data/200108/WT_Female/Cell_7/7_5ADVMLEG1L1_ch2.tif
-../data/200108/WT_Female/Cell_8/8_5ADVMLEG1L1_ch2.tif
+# want to exclude the following but samiPostAnalysis is getting tripped up
+#../data/200108/WT_Female/Cell_8/8_5ADVMLEG1L1_ch2.tif
+# xxx
 ../data/200421/WT Female/Cell 1/Female WT cell 1_3ADVMLEG1L1_ch2.tif
 ../data/200421/WT Female/Cell 10/Female WT cell 10_3ADVMLEG1L1_ch2.tif
 ../data/200421/WT Female/Cell 11/Female WT cell 11_3ADVMLEG1L1_ch2.tif

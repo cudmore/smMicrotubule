@@ -15,7 +15,7 @@ And combine it with outptut of samiVolume.py, e.g. density-results.csv
 
 """
 
-import os
+import os, sys
 import itertools
 from collections import OrderedDict
 
@@ -33,17 +33,31 @@ import seaborn as sns
 class samiPostAnalysis:
 	"""
 	"""
-	def __init__(self):
+	def __init__(self, resultsPath):
+		"""
+		resultsPath: The saveBase of samiAnalysis.py / samiAnalysisParallel.py
+			something like '/Users/cudmore/Desktop/samiVolume3'
+		"""
+		
+		'''
 		wtfPath = '../analysis/wt-female_results.csv'
 		kofPath = '../analysis/ko-female_results.csv'
 		wtmPath = '../analysis/wt-male_results.csv'
 		komPath = '../analysis/ko-male_results.csv'
+		'''
+		
+		wtfPath = os.path.join(resultsPath, 'wt-female_results.csv')
+		kofPath = os.path.join(resultsPath, 'ko-female_results.csv')
+		wtmPath = os.path.join(resultsPath, 'wt-male_results.csv')
+		komPath = os.path.join(resultsPath, 'ko-male_results.csv')
 
+		'''
 		if not os.path.isfile(wtfPath):
 			wtfPath = 'analysis/wt-female_results.csv'
 			kofPath = 'analysis/ko-female_results.csv'
 			wtmPath = 'analysis/wt-male_results.csv'
 			komPath = 'analysis/ko-male_results.csv'
+		'''
 		
 		print('samiPostAnalysis() is loading analysis files')
 		# load as dataframe
@@ -87,7 +101,13 @@ class samiPostAnalysis:
 		# load density-results.csv (output of bimpy/python/samiVolume.py
 		"""
 		"""
-		densityResultsPath = '../analysis/density-results.csv'
+		#densityResultsPath = '../analysis/density-results.csv'
+		densityResultsPath = os.path.join(resultsPath, 'density-results.csv')
+		
+		if not os.path.isfile(densityResultsPath):
+			print('ERROR: samiPostAnalysis() __init__ did not find file:', densityResultsPath)
+			
+		print('    loading densityResultsPath:', densityResultsPath)
 		self.dfDensity = pd.read_csv(densityResultsPath)
 		
 		# a dict of masks (so we don't have to open more than once
@@ -133,11 +153,22 @@ class samiPostAnalysis:
 		#
 		# fetch one line df corresponding to our cell
 		path = self.densityGetOneFilePath(genotype, sex, myCellNumber)
+		
+		# something like:
+		# /Users/cudmore/Desktop/samiVolume2/200421/WT Female/Cell 10/Female WT cell 10_3ADVMLEG1L1_ch2.tif
+		#print('debug densityLoadMasks() got path:', path)
+		
 		#
 		# make a base file loader
 		# path is like: /Users/cudmore/Desktop/samiVolume/200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif
 		baseFilePath = self._getFilePathNoExtension(path)
 		
+		'''
+		print('20200605 densityLoadMasks')
+		print('   path:', path)
+		print('   baseFilePath:', baseFilePath)
+		'''
+			
 		# check if it already loaded
 		myKey = genotype + '_' + sex + '_' + str(int(myCellNumber))
 		#print('  myKey:', myKey)
@@ -185,6 +216,7 @@ class samiPostAnalysis:
 		for genotype, sex in itertools.product(self.genotypes, self.sexes): # nested loop
 			myPruneDict['genotype'] = genotype
 			myPruneDict['sex'] = sex
+			#print('densityCalculateAll() genotype:', genotype, 'sex:', sex)
 			dfRet = self.densityCalculate(myPruneDict, myCellNumber=None) # all cells in (genotype,sex)
 			dfList.append(dfRet)
 		self.dfDensityAnalysis = pd.concat(dfList, axis=0, ignore_index=True)
@@ -259,7 +291,7 @@ class samiPostAnalysis:
 
 			#
 			# load masks (if necc). masks are in self.myMaskDict[myKey]
-			self.densityLoadMasks(genotype, sex, i)
+			self.densityLoadMasks(genotype, sex, i, verbose=verbose)
 			
 			# count pixels in each mask (full, eroded, ring)
 			myKey = genotype + '_' + sex + '_' + str(int(i)) # key into self.myMaskDict[myKey]['ringMask']
@@ -279,6 +311,7 @@ class samiPostAnalysis:
 			vRingMask = nRingMask * voxelVolume
 			
 			
+			#20200602
 			len3d = df[df['myCellNumber'] == i]['len3d'].values # what we will sum
 			
 			# (image_coord_src_0, image_coord_src_1, image_coord_src_2)
@@ -298,6 +331,11 @@ class samiPostAnalysis:
 			lenInFullMask = 0
 			lenInErodedMask = 0
 			lenInRingMask = 0
+			# 202006
+			nInFullMask = 0
+			nInErodedMask = 0
+			nInRingMask = 0
+			#
 			numBranches = xSrc.shape[0] # assuming all the same length
 			if verbose:
 				print('  numBranches:', numBranches)
@@ -320,27 +358,69 @@ class samiPostAnalysis:
 				x2 = int(float(x2))
 				y2 = int(float(y2))
 				z2 = int(float(z2))
+				
+				'''
+				if z2==24:
+					print(self.myMaskDict[myKey]['fullMask'].shape)
+					print(self.myMaskDict[myKey]['erodedMask'].shape)
+					print(self.myMaskDict[myKey]['ringMask'].shape)
+				'''
+				
 				dstInFullMask = self.myMaskDict[myKey]['fullMask'][z2,x2,y2] == 1
 				dstInErodedMask = self.myMaskDict[myKey]['erodedMask'][z2,x2,y2] == 1
 				dstInRingMask = self.myMaskDict[myKey]['ringMask'][z2,x2,y2] == 1
 
 				if srcInFullMask and dstInFullMask:
-					lenInFullMask += len3d[j]
+					lenInFullMask += len3d[j] # sum of total length
+					nInFullMask += 1 # count of number
 				if srcInErodedMask and dstInErodedMask:
 					lenInErodedMask += len3d[j]
+					nInErodedMask += 1
 				if srcInRingMask and dstInRingMask:
 					lenInRingMask += len3d[j]
+					nInRingMask += 1
 
 			# end for j
 			
-			# density per mask
+			# len density per mask (sum of length)
 			dFullMask = lenInFullMask / vFullMask if vFullMask>0 else np.nan
 			dErodedMask = lenInErodedMask / vErodedMask if vErodedMask>0 else np.nan
 			dRingMask = lenInRingMask / vRingMask if vRingMask>0 else np.nan
 			
-			dRingToEroded = dRingMask / dErodedMask if dErodedMask>0 else np.nan
-			dErodedToRing = dErodedMask / dRingMask if dRingMask>0 else np.nan
+			# n per volumes 202006
+			nPerVolFullMask = nInFullMask / vFullMask if vFullMask>0 else np.nan
+			nPerVolErodedMask = nInErodedMask / vErodedMask if vErodedMask>0 else np.nan
+			nPerVolRingMask = nInRingMask / vRingMask if vRingMask>0 else np.nan
 			
+			# avg len per volume 202006
+			if nInFullMask>0 and vFullMask>0:
+				mLenPerVolFullMask = lenInFullMask / nInFullMask / vFullMask
+			else:
+				mLenPerVolFullMask = np.nan
+			if nInErodedMask>0 and vErodedMask>0:
+				mLenPerVolErodedMask = lenInErodedMask / nInErodedMask / vErodedMask
+			else:
+				mLenPerVolErodedMask = np.nan
+			if nInRingMask>0 and vRingMask>0:
+				mLenPerVolRingMask = lenInRingMask / nInRingMask / vRingMask
+			else:
+				mLenPerVolRingMask = np.nan
+			
+			# 202006, switching to percent
+			#dRingToEroded = dRingMask / dErodedMask if dErodedMask>0 else np.nan
+			#dErodedToRing = dErodedMask / dRingMask if dRingMask>0 else np.nan
+			dRingToEroded = dRingMask / dErodedMask * 100 if dErodedMask>0 else np.nan
+			dErodedToRing = dErodedMask / dRingMask * 100 if dRingMask>0 else np.nan
+			# 202006
+			nPerVolRingToEroded = nPerVolRingMask / nPerVolErodedMask * 100 if nPerVolErodedMask>0 else np.nan
+			nPerVolErodedToRing = nPerVolErodedMask / nPerVolRingMask * 100 if nPerVolRingMask>0 else np.nan
+			
+			# remove outliers
+			#if nPerVolErodedToRing > 2000:
+			#	nPerVolErodedToRing = np.nan
+				
+			mLenPerVolRingToEroded = mLenPerVolRingMask / mLenPerVolErodedMask * 100 if mLenPerVolErodedMask>0 else np.nan
+			mLenPerVolErodedToRing = mLenPerVolErodedMask / mLenPerVolRingMask * 100 if mLenPerVolRingMask>0 else np.nan
 			'''
 			if dRingToEroded > 2:
 				print('  FLAG genotype:', genotype, 'sex:', sex, 'dRingToEroded:', dRingToEroded)
@@ -376,6 +456,20 @@ class samiPostAnalysis:
 				'dRingMask':dRingMask,
 				'dRingToEroded': dRingToEroded,
 				'dErodedToRing': dErodedToRing,
+				#
+				'nPerVolFullMask': nPerVolFullMask,
+				'nPerVolErodedMask': nPerVolErodedMask,
+				'nPerVolRingMask': nPerVolRingMask,
+				'nPerVolRingToEroded': nPerVolRingToEroded,
+				'nPerVolErodedToRing': nPerVolErodedToRing,
+				
+				'mLenPerVolFullMask': mLenPerVolFullMask,
+				'mLenPerVolErodedMask': mLenPerVolErodedMask,
+				'mLenPerVolRingMask': mLenPerVolRingMask,
+				
+				'mLenPerVolRingToEroded': mLenPerVolRingToEroded,
+				'mLenPerVolErodedToRing': mLenPerVolErodedToRing,
+				
 				})
 				
 			# append for output
@@ -1015,6 +1109,7 @@ class samiPostAnalysis:
 				
 		if doCellMean:
 			myStatName = 'mean'
+			#myStatName = 'count' # this will be branch count per cell
 			df = self.getCellMean(pruneDict, verbose=False) # need to use 'mean' as stat
 		else:
 			myStatName = pruneDict['statName']

@@ -51,29 +51,36 @@ from datetime import datetime
 
 import numpy as np
 import pandas as pd
-import tifffile
+#import tifffile
 
-from IPython.display import display # to show pandas dataframe as a table
+import multiprocessing as mp
+
+#from IPython.display import display # to show pandas dataframe as a table
 
 # statistical tests between analysis parameters
-from scipy.stats import ttest_ind # used test sig difference between (length, euclidean distance)
+#from scipy.stats import ttest_ind # used test sig difference between (length, euclidean distance)
 
 # package for io, alternative is to just use tifffile
-from aicsimageio import AICSImage, omeTifWriter							
+#from aicsimageio import AICSImage, omeTifWriter							
 
 # function for core algorithm
 from aicssegmentation.core.vessel import filament_3d_wrapper
-from aicssegmentation.core.pre_processing_utils import intensity_normalization, edge_preserving_smoothing_3d, image_smoothing_gaussian_3d
+from aicssegmentation.core.pre_processing_utils import edge_preserving_smoothing_3d, image_smoothing_gaussian_3d
 from skimage.morphology import remove_small_objects	
 
 from skimage import morphology # to convert 3d mask to 1-pixel skeleton, using morphology.skeletonize_3d
 import skan
 
 # my code
+# I rewrote (my_suggest_normalization_param, my_intensity_normalization) so they do not print loads of crap
 from my_suggest_normalization_param import my_suggest_normalization_param # clone of aics segmentation
+from my_intensity_normalization import my_intensity_normalization
+
 from readVoxelSize import readVoxelSize # to read x/y/z scale from Fiji save .tif
 
-def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None):
+import bimpy.util.bTiffFile
+
+def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None, saveBase=None, verbose=False):
 	"""
 	out: numpy array with 1-pixel skeleton
 	maskPath : full path to _dvMask.tif file (can include appended _0.tif
@@ -91,12 +98,13 @@ def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None):
 		maskData = out
 	else:
 		#maskPath = os.path.splitext(path)[0] + '_dvMask_' + str(saveNumber) + '.tif'
-		maskData = tifffile.imread(maskPath)
-	
+		#maskData = tifffile.imread(maskPath)
+		maskData, maskHeader = bimpy.util.bTiffFile.imread(maskPath)
+		
 	# was used by shape_index
 	#imageData = tifffile.imread(imagePath)
 	
-	print('    === myAnalyzeSkeleton() maskData.shape:', maskData.shape)
+	if verbose: print('    === myAnalyzeSkeleton() maskData.shape:', maskData.shape)
 	
 	##
 	##
@@ -120,10 +128,17 @@ def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None):
 	
 	# working on eroded/ring density 20200501
 	# save entire skan analysis as csv
+	# 20200713, was this
+	'''
 	tmpFolder, tmpFileName = os.path.split(imagePath)
 	tmpFileNameNoExtension, tmpExtension = tmpFileName.split('.')
 	saveSkelPath = os.path.join(tmpFolder, tmpFileNameNoExtension + '_skel.csv')
-	print('saving skan results to saveSkelPath:', saveSkelPath)
+	if verbose: print('saving skan results to saveSkelPath:', saveSkelPath)
+	'''
+	
+	saveSkelPath = saveBase + '_skel.csv'
+	print('    myAnalyzeSkeleton() saving saveSkelPath:', saveSkelPath)
+	
 	branch_data.to_csv(saveSkelPath)
 	
 	#
@@ -173,39 +188,71 @@ def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None):
 	
 	return retDict, mySkeleton # returning mySkeleton so we can save it
 	
-def myRun(path, f3_param=[[1, 0.01]], minArea=20, saveNumber=0):
+def myRun(path, myCellNumber, genotype, sex, saveBase = '/Users/cudmore/Desktop/samiVolume2', f3_param=[[1, 0.01]], minArea=20, verbose=False): #, saveNumber=0):
 	"""
 	use aicssegmentation to pre-process raw data and then make/save a 3D mask
+	
+	path: path to raw tif, the _ch2.tif
+	myCellNumber: cell number from batch file (per genotype/sex), NOT unique across different (genotype, sex)
+	saveBase: full path to folder to save to (e.g. /Users/cudmore/Desktop/samiVolume2), must exist
+	...
+	saveNumber: not used
 	"""
-	print('    === myRun() path:', path, 'f3_param:', f3_param, 'minArea:', minArea, 'saveNumber:', saveNumber)
 		
+	print('  === myRun() path:', path, 'saveBase:', saveBase, 'f3_param:', f3_param, 'minArea:', minArea) #, 'saveNumber:', saveNumber)
+
+	#20200608
+	#saveBase = '/Users/cudmore/Desktop/samiVolume2'
+	tmpPath, tmpFileName = os.path.split(path)
+	tmpPath = tmpPath.replace('../data/', '')
+	tmpFileNameNoExtension, tmpExtension = tmpFileName.split('.')
+	saveBase = os.path.join(saveBase, tmpPath)
+	if not os.path.isdir(saveBase):
+		print('    making output dir:', saveBase)
+		os.makedirs(saveBase)
+	#saveBase = os.path.join(saveBase, tmpPath, tmpFileNameNoExtension)
+	saveBase = os.path.join(saveBase, tmpFileNameNoExtension)
+	#saveBase = os.path.join(saveBase, os.path.splitext(path)[0].replace('../data/', ''))
+	if verbose: print('    saveBase:', saveBase)
+			
 	if not os.path.isfile(path):
+		print('ERROR: myRun() did not find file:', path)
 		return None
 	
 	# load the data
-	reader = AICSImage(path) 
-	IMG = reader.data.astype(np.float32)
+	IMG, tifHeader = bimpy.util.bTiffFile.imread(path)
+	
+	saveDataPath = saveBase + '.tif'
+	print('   === saving raw data to saveDataPath:', saveDataPath)
+	bimpy.util.bTiffFile.imsave(saveDataPath, IMG, tifHeader=tifHeader, overwriteExisting=True)
 
+	IMG = IMG.astype(np.float32)
+
+	# channel 1: load then save (do nothing else with it)
+	channelOnePath = path.replace('_ch2.tif', '_ch1.tif')
+	channelOneData, channelOneTiffHeader = bimpy.util.bTiffFile.imread(channelOnePath)
+	saveChannelOnePath = saveBase.replace('_ch2', '_ch1.tif')
+	bimpy.util.bTiffFile.imsave(saveChannelOnePath, channelOneData, tifHeader=tifHeader, overwriteExisting=True)
+	
 	# load x/y/z voxel size (assumes .tif was saved with Fiji
 	xVoxel, yVoxel, zVoxel = readVoxelSize(path)
 	print('    file:', os.path.basename(path), 'has shape:', IMG.shape, 'xVoxel:', xVoxel, 'yVoxel:', yVoxel, 'zVoxel:', zVoxel)
 
-	structure_channel = 0
-	struct_img0 = IMG[0,structure_channel,:,:,:].copy()
-
 	# give us a guess for our intensity_scaling_param parameters
-	low_ratio, high_ratio = my_suggest_normalization_param(struct_img0)
+	#low_ratio, high_ratio = my_suggest_normalization_param(struct_img0)
+	low_ratio, high_ratio = my_suggest_normalization_param(IMG)
 
 	#intensity_scaling_param = [0.0, 22.5]
 	intensity_scaling_param = [low_ratio, high_ratio]
-	print('    === intensity_normalization() intensity_scaling_param:', intensity_scaling_param)
+	if verbose: print('    === my_intensity_normalization() intensity_scaling_param:', intensity_scaling_param)
 	
 	# intensity normalization
-	print('    === calling intensity_normalization()')
-	struct_img = intensity_normalization(struct_img0, scaling_param=intensity_scaling_param)
+	if verbose: print('    === calling my_intensity_normalization()')
+	#struct_img = my_intensity_normalization(struct_img0, scaling_param=intensity_scaling_param)
+	struct_img = my_intensity_normalization(IMG, scaling_param=intensity_scaling_param)
 
 	# smoothing with edge preserving smoothing 
-	print('    === calling edge_preserving_smoothing_3d()')
+	if verbose: print('    === calling edge_preserving_smoothing_3d()')
 	structure_img_smooth = edge_preserving_smoothing_3d(struct_img)
 
 	#
@@ -221,19 +268,19 @@ def myRun(path, f3_param=[[1, 0.01]], minArea=20, saveNumber=0):
 		while larger cutoff_x could be less permisive and yield less filaments and slimmer segmentation.
 	"""
 	#f3_param = [[1, 0.01]] # [scale_1, cutoff_1]
-	print('    === calling filament_3d_wrapper() f3_param:', f3_param)
+	if verbose: print('    === calling filament_3d_wrapper() f3_param:', f3_param)
 	bw = filament_3d_wrapper(structure_img_smooth, f3_param)
 		
 	#
 	#minArea = 20 # from recipe
-	print('   === calling remove_small_objects() minArea:', minArea)
+	if verbose: print('   === calling remove_small_objects() minArea:', minArea)
 	seg = remove_small_objects(bw>0, min_size=minArea, connectivity=1, in_place=False)
 
 	#
 	# save original file again (with saveNumber
 	saveNumberStr = ''
-	if saveNumber>1:
-		saveNumberStr = '_' + str(saveNumber)
+	#if saveNumber>1:
+	#	saveNumberStr = '_' + str(saveNumber)
 		
 	#
 	# save _dvMask.tif
@@ -241,21 +288,34 @@ def myRun(path, f3_param=[[1, 0.01]], minArea=20, saveNumber=0):
 	out=seg.astype(np.uint8)
 	out[out>0]=255	
 	#
-	maskPath = os.path.splitext(path)[0] + '_dvMask' + saveNumberStr + '.tif'
-	print('   === saving 3D mask [WILL FAIL IF FILE EXISTS] as maskPath:', maskPath)
+	#maskPath = os.path.splitext(path)[0] + '_dvMask' + saveNumberStr + '.tif'
+	maskPath = saveBase + '_dvMask' + saveNumberStr + '.tif'
+	print('   === saving 3D mask as maskPath:', maskPath)
+	#tifffile.imsave(maskPath, out)
+	bimpy.util.bTiffFile.imsave(maskPath, out, tifHeader=tifHeader, overwriteExisting=True)
+	
+	'''
 	try:
 		writer = omeTifWriter.OmeTifWriter(maskPath)
 		writer.save(out)
 	except(OSError) as e:
 		print('    ******** ERROR: file already exists, did not resave, maskPath:', maskPath)
+	'''
 		
 	#
 	# ################
 	# analyze skeleton, take a 3d mask and analyze as a 1-pixel skeleton
-	retDict0, mySkeleton = myAnalyzeSkeleton(out=out, imagePath=path) 
+	retDict0, mySkeleton = myAnalyzeSkeleton(out=out, imagePath=path, saveBase=saveBase) 
 	# ################
 	retDict = OrderedDict()
 	retDict['analysisDate'] = datetime.today().strftime('%Y%m%d')
+	#
+	retDict['saveBase'] = saveBase
+	retDict['myCellNumber'] = myCellNumber
+	retDict['genotype'] = genotype
+	retDict['sex'] = sex
+	#
+	retDict['path'] = path # 20200713 working on parallel
 	retDict['tifPath'] = path
 	retDict['maskPath'] = maskPath
 	retDict['tifFile'] = os.path.basename(path)
@@ -264,7 +324,7 @@ def myRun(path, f3_param=[[1, 0.01]], minArea=20, saveNumber=0):
 	retDict['zVoxel'] = zVoxel
 	#
 	retDict['params'] = OrderedDict()
-	retDict['params']['saveNumber'] = saveNumber
+	#retDict['params']['saveNumber'] = saveNumber
 	retDict['params']['intensity_scaling_param'] = intensity_scaling_param # calculated in my_suggest_normalization_param
 	retDict['params']['f3_param'] = f3_param[0] # cludge, not sure where to put this. f3_param is a list of list but screws up my .csv output !!!
 	retDict['params']['minArea'] = minArea
@@ -274,15 +334,116 @@ def myRun(path, f3_param=[[1, 0.01]], minArea=20, saveNumber=0):
 
 	# save 1-pixel skeleton: mySkeleton
 	# save _dvSkel
-	skelPath = os.path.splitext(path)[0] + '_dvSkel' + saveNumberStr + '.tif'
-	print('    === saving 3D skel [WILL FAIL IF FILE EXISTS] as maskPath:', skelPath)
-	try:
-		writer = omeTifWriter.OmeTifWriter(skelPath)
-		writer.save(mySkeleton)
-	except(OSError) as e:
-		print('    ******** ERROR: file already exists, did not resave, skelPath:', skelPath)
-			
+	#skelPath = os.path.splitext(path)[0] + '_dvSkel' + saveNumberStr + '.tif'
+	skelPath = saveBase + '_dvSkel' + saveNumberStr + '.tif'
+	print('    === saving 3D skel as maskPath:', skelPath)
+	#tifffile.imsave(skelPath, mySkeleton)
+	bimpy.util.bTiffFile.imsave(skelPath, mySkeleton, tifHeader=tifHeader, overwriteExisting=True)
+
 	return retDict
+	
+def saveFlatResults(resultsList, flatResultPath):
+	#
+	# do some quick stats on our master dfMaster
+	
+	#
+	# make flat output for viewing in excel
+	# remember, commas (',') in list screw up auto open in excel !!!!
+	# todo: simplify this, WAY to complicated !!!!!!!!!!!
+	skipTheseKeys = ['data'] # skip keys that are actually numpy arrays
+
+	headerStr = ''
+	valueStr = ''
+	thisDelim = ','
+	#dfList0 = []
+	for idx, result in enumerate(resultsList):
+		# result is for one cell
+		for k1,v1 in result.items():
+			# skip ['data']
+			if k1 in skipTheseKeys:
+				continue
+
+			'''
+			print('k1:', k1)
+			print('v1:', str(v1))
+			'''
+			
+			#df0 = pd.DataFrame({k1:[v1]})
+			#dfList0.append(df0)
+			
+			if isinstance(result[k1], dict):
+				# append all k2,v2 in dict
+				for k2,v2 in result[k1].items():
+					'''
+					print('    k2:', k2)
+					print('    v2:', str(v2))
+					'''
+					if idx == 0:
+						headerStr += k2 + thisDelim
+					if isinstance(v2, list) or isinstance(v2, tuple):
+						valueStr += '['
+						for tmpItem in v2:
+							valueStr += str(tmpItem) + ' ' 
+						valueStr += ']' + thisDelim
+					else:
+						valueStr += str(v2) + thisDelim
+			else:
+				# just append k1, v1
+				if idx == 0:
+					headerStr += k1 + thisDelim
+				if isinstance(v1, list) or isinstance(v1, tuple):
+					valueStr += '['
+					for tmpItem in v1:
+						valueStr += str(tmpItem) + ' ' 
+					valueStr += ']' + thisDelim
+				else:
+					valueStr += str(v1) + thisDelim
+		valueStr += '\n' # weird
+		
+	#
+	# save as .csv from the flat output
+	#resultsFile = os.path.splitext(path)[0] + '_results.csv'
+	#resultsFile = savePath + '_batch_results_p.csv'
+	print('DONE: saving results file:', flatResultPath)
+	with open(flatResultPath, "w") as f:
+		print(headerStr, file=f)
+		print(valueStr, file=f)
+
+def getColumnNames():
+	theRet = ['myCellNumber', 'saveBase', 'filename', 'genotype', 'sex', 'xVoxel', 'yVoxel', 'zVoxel', 'branchType', 'len3d', 'euclideanDist', 'tortuosity', 'path']
+	return theRet
+	
+def oneCellDataFrame(retDict):
+	column_names = getColumnNames()
+	#
+	# put these in df
+	df2 = pd.DataFrame(columns = column_names)
+	# lists
+	df2['branchType'] = retDict['data']['branchType']
+	df2['len3d'] = retDict['data']['branchLength']
+	df2['euclideanDist'] = retDict['data']['euclideanDistance']
+	df2['tortuosity'] = retDict['data']['tortuosity']
+	# single values (all same)
+	df2['myCellNumber'] = retDict['myCellNumber'] # fills in all rows
+	df2['filename'] = os.path.basename(retDict['path']) # fills in all rows
+	df2['genotype'] = retDict['genotype'] # fills in all rows, from name of batch=batFilePath, e.g. wt-female.txt
+	df2['sex'] = retDict['sex'] # fills in all rows
+	df2['xVoxel'] = retDict['xVoxel'] # fills in all rows
+	df2['yVoxel'] = retDict['yVoxel'] # fills in all rows
+	df2['zVoxel'] = retDict['zVoxel'] # fills in all rows
+	df2['path'] = retDict['path'] # fills in all rows
+	df2['saveBase'] = retDict['saveBase'] # fills in all rows
+
+	# 20200503 working on density analysis
+	# ['data']['image_coord_src_0']
+	df2['image_coord_src_0'] = retDict['data']['image_coord_src_0']
+	df2['image_coord_src_1'] = retDict['data']['image_coord_src_1']
+	df2['image_coord_src_2'] = retDict['data']['image_coord_src_2']
+	df2['image_coord_dst_0'] = retDict['data']['image_coord_dst_0']
+	df2['image_coord_dst_1'] = retDict['data']['image_coord_dst_1']
+	df2['image_coord_dst_2'] = retDict['data']['image_coord_dst_2']
+
+	return df2
 	
 def parseBatchFile(path):
 	"""
@@ -302,13 +463,15 @@ def parseBatchFile(path):
 	
 if __name__ == '__main__':
 		
+	startTime = time.time()
+
 	#
 	# parse command line arguments
 	path = None
 	pathList = None
 	savePath = ''
 	doBatchFile = None
-	sheetName = None
+	#sheetName = None
 	genotype = ''
 	sex = ''
 	for i, arg in enumerate(sys.argv):
@@ -322,7 +485,8 @@ if __name__ == '__main__':
 			path = filePath
 			savePath = os.path.splitext(path)[0]
 			fileNameNoExtension = os.path.splitext(os.path.basename(path))[0]
-			sheetName = fileNameNoExtension
+			batchFileName = fileNameNoExtension
+			#sheetName = fileNameNoExtension
 		elif arg.startswith('batch='):
 			doBatchFile = True
 			# open specified file and make a list of path
@@ -331,14 +495,14 @@ if __name__ == '__main__':
 			pathList = parseBatchFile(batchFilePath) ## LOCAL FUNCTION
 			savePath = os.path.splitext(batchFilePath)[0]
 			batchFileNoExtension = os.path.splitext(os.path.basename(batchFilePath))[0]
-			sheetName = batchFileNoExtension
+			#sheetName = batchFileNoExtension
 			#
 			batchFileName = os.path.basename(batchFilePath) #wt-female.txt
 			batchFileName = batchFileName.split('.')[0]
 			genotype = batchFileName.split('-')[0]
 			sex = batchFileName.split('-')[1]
-			print('genotype:', genotype)
-			print('sex:', sex)
+			print('    genotype:', genotype)
+			print('    sex:', sex)
 			
 	if pathList is None:
 		pathList = [path]
@@ -370,13 +534,22 @@ if __name__ == '__main__':
 		#print('    fileName:', fileName)
 		#print('    fileNameNoExtension:', fileNameNoExtension)
 	
+		#
+		# series
 		#1
-		saveNumber = 1
+		#saveNumber = 1
+		saveBase = '/Users/cudmore/Desktop/samiVolume1'
+		if not os.path.isdir(saveBase):
+			print('samiAnalysis is making output dir:', saveBase)
+			os.mkdir(saveBase)
 		f3_param=[[1, 0.01]]
 		f3_param=[[0.5, 0.005]]
 		minArea=20
 		# run the masking and skeletonization and append to list
-		retDict = myRun(path, f3_param, minArea=minArea, saveNumber=saveNumber)
+		args=(path, myCellNumber, genotype, sex, saveBase, f3_param, minArea) #, saveNumber)
+		# was working
+		#retDict = myRun(path, f3_param, minArea=minArea)
+		retDict = myRun(args)
 		if retDict is None:
 			print('\n\n\n                            ERROR: File not found path:', path, '\n\n\n')
 			continue
@@ -396,6 +569,10 @@ if __name__ == '__main__':
 		resultsList.append(retDict)
 		'''
 		
+		#
+		df2 = oneCellDataFrame(retDict)
+
+		'''
 		#
 		# put these in df
 		df2 = pd.DataFrame(columns = column_names)
@@ -422,19 +599,28 @@ if __name__ == '__main__':
 		df2['image_coord_dst_0'] = retDict['data']['image_coord_dst_0']
 		df2['image_coord_dst_1'] = retDict['data']['image_coord_dst_1']
 		df2['image_coord_dst_2'] = retDict['data']['image_coord_dst_2']
+		'''
 		
 		# append to master
 		dfMaster = dfMaster.append(df2, ignore_index = True) 
 		
 	# save master, across cells in this batch/cond, generally (genotype, sex)
 	#pandasPath = '/Users/cudmore/Desktop/masterDF.csv'
-	pandasPath = savePath + '_results.csv'
+	#pandasPath = savePath + '_results.csv'
+	pandasPath = os.path.join(saveBase, batchFileName + '_results.csv')
 	print('saving master pandas dataframe pandasPath:', pandasPath)
 	dfMaster.to_csv(pandasPath)
 	
 	#
 	# do some quick stats on our master dfMaster
 	
+	#
+	#
+	#flatResultPath = savePath + '_batch_results.csv'
+	flatResultPath = os.path.join(saveBase, batchFileName + '_results_summary.csv')
+	saveFlatResults(resultsList, flatResultPath)
+
+	"""
 	#
 	# make flat output for viewing in excel
 	# remember, commas (',') in list screw up auto open in excel !!!!
@@ -497,7 +683,11 @@ if __name__ == '__main__':
 	with open(resultsFile, "w") as f:
 		print(headerStr, file=f)
 		print(valueStr, file=f)
+	"""
 	
+	stopTime = time.time()
+	print('  took', round(stopTime-startTime,2), 'seconds')
+
 	##
 	##
 	## see old_code.py

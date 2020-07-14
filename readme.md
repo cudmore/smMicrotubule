@@ -1,3 +1,57 @@
+## Overview
+
+1) convert raw data
+
+Analysis
+
+1) specify path to save/view everything in file gAnalysisPath.py
+2) ./batch-samiAnalysisParallel.sh 
+3) python samiVolume2.py
+4) python samiDensity.py
+5) run jupyter notebook densityAnalysis.ipynb
+6) view with `python samiViewer2.py ../analysis/wt-female.txt
+
+samiVolume3/
+	samiVolume2.py used 
+		erodedIterations0 = 3
+		erodedIterations = 3
+		
+## Install aics and bImPy togethere
+
+Need to use conda
+
+```
+# see: #https://github.com/AllenInstitute/aics-segmentation/blob/master/docs/installation_mac.md
+cd ~/Sites
+git clone https://github.com/AllenInstitute/aics-segmentation.git
+
+cd ~/Sites/smMicrotubule
+
+conda create -n sami_env python=3.6
+
+conda activate sami_env
+
+conda install nb_conda
+
+
+pip install numpy
+pip install itkwidgets==0.14.0
+
+pip install -e ../aics-segmentation.
+
+# install bimpy
+pip install -e /Users/cudmore/Sites/bImPy/.
+
+# downgrade tifffile (for aics)
+pip install tifffile==0.15.1
+```
+
+remember
+
+```
+pip install seaborn statannot
+```
+
 ## A) Workflow
 
 ### 1) Convert oir file to .tif and split channels
@@ -60,7 +114,7 @@ cd python
 
 In this .csv file, each row is a branch segment. The branchType is from [0,1,2] with 0 meaning disconnected, 1 meaning connected on one end, and 2 meaning connected on both ends.
 
-**todo** Go back to Skan documentation to versify this.
+**todo** Go back to Skan documentation to verify this.
 
 
 **todo**: I need to have `python/samiAnalysis.py` check if its output, `_dvMask.tif` already exists and not reprocess (it is getting slow). I don't think I can easily get unique cell numbers? All files need to be saved with unique names, e.g. `<yyyymmdd_cell<n>.oir`. Where `<yyyymmdd>` is the date it was acquired and `<n>` is a file index appended by Olympus software.
@@ -116,6 +170,10 @@ retDict0, mySkeleton = myAnalyzeSkeleton(out=out, imagePath=path)
 Code is now in
 
 ```
+# HERE
+/Users/cudmore/Sites/smMicrotubules/python/samiVolume2.py 
+
+# NOT HERE
 /Users/cudmore/Sites/bImPy/examples/edt/samiVolume2.py 
 ```
 
@@ -184,15 +242,24 @@ jupyter notebook
 
 ## C) Calculate density of filaments in (full mask, eroded mask, ring mask)
 
-Use
+Use the following, be sure to tweek where it grabs analysis from
+
 
 ```
-/Users/cudmore/Sites/bImPy/examples/edt/samiDensity.py
+# edit samiDensity.py
+analysisRoot = '/Users/cudmore/Desktop/samiVolume' # remember, _ch1.tif DOES NOT have scale here !!!!!
+analysisRoot = '/Users/cudmore/Desktop/samiVolume2' # remember, _ch1.tif DOES NOT have scale here !!!!!
+
+python /Users/cudmore/Sites/bImPy/examples/edt/samiDensity.py
 ```
 
 This pulls the **3 masks** (full, eroded, ring) from results of samiVolume2.py and the **skeleton** from smMicrotubules/python/samiAnalysis.py
 
 It then calculates the density of filaments in each mask
+
+Save to /Users/cudmore/Desktop/density-results.csv
+
+This is then used by samiPostAanalysis.py
 
 ## Utilities
 
