@@ -1,0 +1,41 @@
+MT/Puncta Rating: 1= beautiful MTs to 5 = straight puncta
+
+191230
+BIN1 smKO Male
+Cell 12: 5
+Cell 13: 5
+Cell 14: 5
+Cell 15: 4
+
+WT Male
+Cell 4: 2.5
+Cell 5: 2.5
+Cell 6: 3
+Cell 7: 3
+Cell 8: 3.5
+Cell 9: 3
+Cell 10: 2.5
+
+200108
+BIN1 smKO Female
+Cell 2: 1
+Cell 3: 1
+Cell 4: 1.5
+Cell 5: 1
+Cell 6: 1.5
+Cell 9: 2
+Cell 10: 2
+Cell 11: 1.5
+
+WT Female
+Cell 1: 1.5
+Cell 7: 2.5
+Cell 8: 4
+
+===
+ko male
+/Users/cudmore/Sites/smMicrotubule/data/191230/BIN1_smKO_Male/Cell_12/12_ch2.tif
+/Users/cudmore/Sites/smMicrotubule/data/191230/BIN1_smKO_Male/Cell_13/13_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/Sites/smMicrotubule/data/191230/BIN1_smKO_Male/Cell_14/14_5ADVMLEG1L1_ch2.tif
+/Users/cudmore/Sites/smMicrotubule/data/191230/BIN1_smKO_Male/Cell_15/15_5ADVMLEG1L1_ch2.tif
+
