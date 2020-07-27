@@ -1,3 +1,14 @@
+## Todo
+
+- make a mask for nuclear (ch1) and remove those pixels from both (full, ring, eroded)
+- try and use gaussian followed by erosion for maksing (not for skeleton)
+- make sure samiViewer2.py just takes an output folder
+- implement selection of n random (e.g. 100) measurements from skeleton, this requires to go through and figure out smallest n
+
+- my masks are always 1-2 slices too big in z. Presumably due to z-spread (point spread function). Maybe remove 1-4 (probably 3-4 slices) at the top and bottom of the stack
+
+- this points to a bigger problem with the shared santana confocal scope. Is it in alignment???
+
 ## Overview
 
 1) convert raw data
@@ -6,7 +17,7 @@ Analysis
 
 1) specify path to save/view everything in file gAnalysisPath.py
 2) ./batch-samiAnalysisParallel.sh 
-3) python samiVolume2.py
+3) python samiVolume2.py # slowest
 4) python samiDensity.py
 5) run jupyter notebook densityAnalysis.ipynb
 6) view with `python samiViewer2.py ../analysis/wt-female.txt

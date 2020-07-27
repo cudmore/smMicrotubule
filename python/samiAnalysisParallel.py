@@ -84,22 +84,28 @@ if __name__ == '__main__':
 	saveBase = '/Users/cudmore/Desktop/samiVolume3'
 	'''
 	
-	from gAnalysisPath import gAnalysisPath
-	saveBase = gAnalysisPath
+	from gAnalysisPath import gSami_Params
+	saveBase = gSami_Params['gAnalysisPath']
 	
 	if not os.path.isdir(saveBase):
 		print('samiAnalysisParallel is making output dir:', saveBase)
 		os.mkdir(saveBase)
-	#saveNumber = 1
-	f3_param=[[1, 0.01]] #samiVolume2
+	
+	f3_param = gSami_Params['samiAnalysis_params']['f3_param']
+	minArea = gSami_Params['samiAnalysis_params']['minArea']
+	
+	#f3_param=[[1, 0.01]] #saveNumber = 1
+	'''
 	f3_param=[[0.5, 0.005]] # samiVolume3
 	minArea=20
+	'''
 	#
 	# parallel
 	cpuCount = mp.cpu_count()
 	cpuCount -= 2
 	pool = mp.Pool(processes=cpuCount)
 	results = []
+
 	for myCellNumber, path in enumerate(pathList):	
 		#results = [pool.apply_async(myRun, args=(file,myIdx+1)) for myIdx, file in enumerate(filenames)]
 		args=(path, myCellNumber, genotype, sex, saveBase, f3_param, minArea) #, saveNumber)

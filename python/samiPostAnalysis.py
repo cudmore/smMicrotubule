@@ -39,6 +39,8 @@ class samiPostAnalysis:
 			something like '/Users/cudmore/Desktop/samiVolume3'
 		"""
 		
+		self.resultsPath = resultsPath
+		
 		'''
 		wtfPath = '../analysis/wt-female_results.csv'
 		kofPath = '../analysis/ko-female_results.csv'
@@ -78,6 +80,24 @@ class samiPostAnalysis:
 
 		dfList = [wtf, kof, wtm, kom]
 
+		# to reject cells, dfList has column 'saveBase' like
+		# /Users/cudmore/Desktop/samiVolume2/200108/BIN1smKO_Female/Cell_2/2_5ADVMLEG1L1_ch2
+		# specify a list of cells to reject like
+		self.rejectList = []
+		
+		# bad kn male
+		self.rejectList.append('191230/BIN1_smKO_Male/Cell_12/12_5ADVMLEG1L1_ch2')
+		self.rejectList.append('191230/BIN1_smKO_Male/Cell_13/13_5ADVMLEG1L1_ch2')
+		self.rejectList.append('191230/BIN1_smKO_Male/Cell_14/14_5ADVMLEG1L1_ch2')
+		self.rejectList.append('191230/BIN1_smKO_Male/Cell_15/15_5ADVMLEG1L1_ch2')
+		
+		# removed because # branches in skel is low (<200)
+		self.rejectList.append('191230/WT_Male/Cell_5/5_5ADVMLEG1L1_ch2')
+		
+		# removed because _ch1 is 'corrupt', really low intensity AND has 3 channels
+		# removed from analysis/wt-female.txt
+		#self.rejectList.append('200108/WT_Female/Cell_8/8_5ADVMLEG1L1_ch2')
+		
 		# append them all together
 		self.df = pd.concat(dfList, axis=0, ignore_index=True)
 
@@ -740,6 +760,20 @@ class samiPostAnalysis:
 		
 		statName = pruneDict['statName']
 
+		# reduce by self.rejectList
+		#df = df.drop(df[(df.score < 50) & (df.score > 20)].index)
+		if self.rejectList:
+			for idx, reject in enumerate(self.rejectList):
+				# self.resultsPath is like: '/Users/cudmore/Desktop/samiVolume1')
+				# reject is like: '191230/BIN1_smKO_Male/Cell_12/12_5ADVMLEG1L1_ch2
+				# df.saveBase is like '/Users/cudmore/Desktop/samiVolume1/191230/BIN1_smKO_Male/Cell_12/12_5ADVMLEG1L1_ch2'
+				reject = os.path.join(self.resultsPath, reject)
+				beforeRows = df.shape[0]
+				df = df.drop(df[df.saveBase==reject].index)
+				afterRows = df.shape[0]
+				if beforeRows == afterRows:
+					print('warning: samiPostAnalysis.getPruned() did not remove:', reject)
+			
 		# reduce by 'branchType'
 		branchTypeList = pruneDict['branchType']
 		if not isinstance(branchTypeList,list): branchTypeList = [branchTypeList]
@@ -763,6 +797,15 @@ class samiPostAnalysis:
 		if minValue is not None:
 			df = df[df[statName]>=minValue]
 
+		nPick = pruneDict['nPick']
+		if nPick is not None:
+			if len(genotypeList) > 1 or len(genotypeList) > 1:
+				print('do not nPick')
+			else:
+				import random
+				rowList = range(df.shape[0])
+				randomList = random.choices(rowList, k=nPick)
+				df = df.iloc[randomList]
 		#
 		return df
 		
@@ -1074,6 +1117,9 @@ class samiPostAnalysis:
 		pruneDict['minValue'] = 1 # if specified will only accept values >= ['minValue']
 		pruneDict['doCellMean'] = False # if true, prunng will return mean for each cell, rather than raw branch data
 		pruneDict['statTest'] = 'Mann-Whitney' # one of ('T-Test', 'Mann-Whitney', 'Kruskal-Wallis')
+		
+		pruneDict['nPick'] = None
+		
 		return pruneDict
 	
 	def _plotCondMeanLegend(self, pruneDict, ax, doCellMean):
@@ -1167,7 +1213,7 @@ class samiPostAnalysis:
 		#
 		return g
 
-	def plotHist(self, pruneDict=None, ax=None):
+	def plotHist(self, pruneDict=None, doCumulative=False, ax=None):
 		"""
 		plot a histogram of ['statName']
 
@@ -1208,8 +1254,17 @@ class samiPostAnalysis:
 		if ax is None:
 			fig, ax = plt.subplots(1, 1, figsize=(10,5))
 
-		ax.hist(valuesList, bins='auto', density=True, histtype='bar', color=colors, label=labels) #, alpha=0.7, rwidth=0.85)
-		ax.legend(prop={'size': 10})
+		# plot the cumulative histogram
+		#n, bins, patches = ax.hist(x, n_bins, density=True, histtype='step',
+        #                   cumulative=True, label='Empirical')
+		
+		histtype = 'bar' # default
+		if doCumulative:
+			histtype = 'step'
+		
+		#ax.hist(valuesList, bins='auto', density=True, histtype='bar', color=colors, label=labels, density=True) #, alpha=0.7, rwidth=0.85)
+		ax.hist(valuesList, bins='auto', cumulative=doCumulative, histtype=histtype, color=colors, label=labels, density=True) #, alpha=0.7, rwidth=0.85)
+		ax.legend(loc='lower right')
 		
 		return ax # call plt.show() to show !!!
 		

@@ -82,6 +82,8 @@ def myDensity(path, genotype, sex, myCellNumber, doNapari=False):
 	tmpFileNameNoExtension, tmpExtension = tmpFileName.split('.')
 	analysisBaseFilePath = os.path.join(tmpPath, tmpFileNameNoExtension) # append to this to get files
 		
+	# removed 20200722 when converting to samiMaskMicrotubule
+	'''
 	#
 	# load entire mask '_filledHolesMask.tif'
 	fullMaskPath = analysisBaseFilePath + '_filledHolesMask.tif'
@@ -90,6 +92,7 @@ def myDensity(path, genotype, sex, myCellNumber, doNapari=False):
 	resultDict['nMask'] = numPixelsInFullMask # number of pixels in the mask
 	resultDict['vMask'] = numPixelsInFullMask * voxelVolume
 	stackDict['fullMaskStack'] = fullMaskStack
+	'''
 	
 	#
 	# load eroded mask '_erodedMask.tif'
@@ -288,9 +291,10 @@ if __name__ == '__main__':
 	analysisRoot = '/Users/cudmore/Desktop/samiVolume3' # remember, _ch1.tif DOES NOT have scale here !!!!!
 	#dataPath = '/Users/cudmore/Sites/smMicrotubule/data'
 
-	from gAnalysisPath import gAnalysisPath
-	analysisRoot = gAnalysisPath
+	from gAnalysisPath import gSami_Params
+	analysisRoot = gSami_Params['gAnalysisPath']
 	
+	'''
 	batchFileList = []
 	batchFile = '/Users/cudmore/Sites/smMicrotubule/analysis/wt-female.txt'
 	batchFileList.append(batchFile)
@@ -300,10 +304,13 @@ if __name__ == '__main__':
 	batchFileList.append(batchFile)
 	batchFile = '/Users/cudmore/Sites/smMicrotubule/analysis/ko-male.txt'
 	batchFileList.append(batchFile)
+	'''
 	
 	# debugging
 	# is now broekn with getting (genotype, sex)
-	#batchFileList = ['one-wt-female.txt']
+	#batchFileList = ['/Users/cudmore/Sites/smMicrotubule/analysis/two_wt-female.txt']
+
+	batchFileList = gSami_Params['gBatchFileList']
 
 	#
 	# parallel

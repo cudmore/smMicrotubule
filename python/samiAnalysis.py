@@ -188,7 +188,7 @@ def myAnalyzeSkeleton(out=None, maskPath=None, imagePath=None, saveBase=None, ve
 	
 	return retDict, mySkeleton # returning mySkeleton so we can save it
 	
-def myRun(path, myCellNumber, genotype, sex, saveBase = '/Users/cudmore/Desktop/samiVolume2', f3_param=[[1, 0.01]], minArea=20, verbose=False): #, saveNumber=0):
+def myRun(path, myCellNumber, genotype, sex, saveBase = '/Users/cudmore/Desktop/samiVolume2', f3_param=[1, 0.01], minArea=20, verbose=False): #, saveNumber=0):
 	"""
 	use aicssegmentation to pre-process raw data and then make/save a 3D mask
 	
@@ -269,7 +269,7 @@ def myRun(path, myCellNumber, genotype, sex, saveBase = '/Users/cudmore/Desktop/
 	"""
 	#f3_param = [[1, 0.01]] # [scale_1, cutoff_1]
 	if verbose: print('    === calling filament_3d_wrapper() f3_param:', f3_param)
-	bw = filament_3d_wrapper(structure_img_smooth, f3_param)
+	bw = filament_3d_wrapper(structure_img_smooth, [f3_param]) # f3_param is a list of a list
 		
 	#
 	#minArea = 20 # from recipe
@@ -326,7 +326,8 @@ def myRun(path, myCellNumber, genotype, sex, saveBase = '/Users/cudmore/Desktop/
 	retDict['params'] = OrderedDict()
 	#retDict['params']['saveNumber'] = saveNumber
 	retDict['params']['intensity_scaling_param'] = intensity_scaling_param # calculated in my_suggest_normalization_param
-	retDict['params']['f3_param'] = f3_param[0] # cludge, not sure where to put this. f3_param is a list of list but screws up my .csv output !!!
+	#retDict['params']['f3_param'] = f3_param[0] # cludge, not sure where to put this. f3_param is a list of list but screws up my .csv output !!!
+	retDict['params']['f3_param'] = f3_param # cludge, not sure where to put this. f3_param is a list of list but screws up my .csv output !!!
 	retDict['params']['minArea'] = minArea
 
 	#

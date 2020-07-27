@@ -211,8 +211,11 @@ def samiNapari2(path):
 
 if __name__ == '__main__':
 	
-	from gAnalysisPath import gAnalysisPath
-
+	from gAnalysisPath import gSami_Params
+	gAnalysisPath = gSami_Params['gAnalysisPath']
+	
+	gAnalysisPath = '/Users/cudmore/Desktop/samiVolume3'
+	
 	batchFilePath = ''
 	for i, arg in enumerate(sys.argv):
 		if i == 0:

@@ -1,3 +1,11 @@
+##################
+##################
+##################
+# THIS HAS BEEN REPLACED BY samiMaskMicrotubules.py
+##################
+##################
+##################
+
 """
 Robert Cudmore
 20200429
@@ -39,11 +47,13 @@ import tifffile
 
 import bimpy
 
+from gAnalysisPath import gSami_Params
+
 def myGaussianFilter(imageStack, sigma=(2,2,2)):
 	"""
 	see: https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.gaussian_filter.html
 	"""
-	print('myGaussianFilter() ... please wait')
+	print('  myGaussianFilter() ... please wait')
 	result = ndimage.gaussian_filter(imageStack, sigma=sigma)
 	return result
 
@@ -51,7 +61,7 @@ def myMedianFilter(imageStack, size=(2,2,2)):
 	"""
 	see: https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.signal.medfilt.html
 	"""
-	print('myMedianFilter() ... please wait')
+	print('  myMedianFilter() size:', size, '... please wait')
 	result = scipy.signal.medfilt(imageStack, kernel_size=size).astype(np.uint8)
 	return result
 
@@ -88,7 +98,7 @@ def myFillHoles(imageStack):
 	see: https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.ndimage.morphology.binary_fill_holes.html
 	"""
 	
-	print('myFillHoles()')
+	print('  myFillHoles()')
 	
 	retStack = morphology.binary_fill_holes(imageStack)
 	retStack = retStack.astype(np.uint8)
@@ -116,7 +126,7 @@ def myClosing(imageStack, structure = (3,5,5)):
 	"""
 	
 	iterations = 5
-	print('myClosing() iterations:', iterations)
+	print('  myClosing() iterations:', iterations)
 	
 	# see: https://docs.scipy.org/doc/scipy-0.14.0/reference/generated/scipy.ndimage.morphology.generate_binary_structure.html
 	myStructure = np.ones(structure, dtype=np.int)
@@ -145,7 +155,7 @@ def myLabel(imageStack, structure=(3,3,3)):
 	see: https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.label.html
 	"""
 
-	print('myLabel()')
+	print('  myLabel()')
 	print('  ', imageStack.shape, imageStack.dtype, 'min:', np.min(imageStack), 'max:', np.max(imageStack))
 
 	myStructure = np.ones(structure, dtype=np.int)
@@ -245,7 +255,7 @@ def myVolume(path, doNapari=False):
 	assuming path is a _ch2.tif
 	"""
 	
-	print('  === myVolume()')
+	print('  === samiVolume2.py myVolume()')
 	
 	if not os.path.isfile(path):
 		print('ERROR: myVolume() did not find path:', path)
@@ -314,8 +324,10 @@ def myVolume(path, doNapari=False):
 	# filter raw image
 	#
 	startSeconds = time.time()
-	medianParams = (3,11,11)
-	medianParams = (3,5,5) # 202006
+	#medianParams = (3,11,11)
+	#medianParams = (3,5,5) # 202006
+	medianParams = gSami_Params['samiVolume2_params']['medianParams']
+	
 	loadedMedian = False
 	if doMedian:
 		'''
@@ -331,6 +343,7 @@ def myVolume(path, doNapari=False):
 		'''
 		medianFilteredStack = myMedianFilter(imageStack, size=medianParams)
 		tiffFileInfo['medianParams'] = medianParams
+	"""
 	else:
 		#
 		# try and load median
@@ -346,6 +359,8 @@ def myVolume(path, doNapari=False):
 			medianFilteredStack = imageStack.copy()
 			tiffFileInfo['medianParams'] = (None,None,None)
 		'''
+	"""
+	
 	_printStackParams('medianFilteredStack', medianFilteredStack)
 	results['medianFilteredStack'] = medianFilteredStack
 	stopSeconds = time.time()
@@ -359,8 +374,11 @@ def myVolume(path, doNapari=False):
 		
 	#
 	# threshold
-	thresholdMin = 2
-	thresholdMax = 255
+	#thresholdMin = 2
+	#thresholdMax = 255
+	thresholdMin = gSami_Params['samiVolume2_params']['thresholdMin']
+	thresholdMax = gSami_Params['samiVolume2_params']['thresholdMax']
+
 	medianMask = myThreshold_min_max(medianFilteredStack, min=thresholdMin, max=thresholdMax)
 	tiffFileInfo['thresholdMin'] = thresholdMin
 	tiffFileInfo['thresholdMax'] = thresholdMax
@@ -373,7 +391,8 @@ def myVolume(path, doNapari=False):
 	'''
 	
 	# distance map mask is too big, when we get ring mask it will be super biased
-	includeDistanceLessThan = 2 * xVoxel #1
+	#includeDistanceLessThan = 2 * xVoxel #1
+	includeDistanceLessThan = gSami_Params['samiVolume2_params']['includeDistanceLessThan']
 	distanceMap, distanceMask = myDistanceMap(medianMask, scale=(zVoxel, xVoxel, yVoxel), includeDistanceLessThan=includeDistanceLessThan)	
 	_printStackParams('distanceMap', distanceMap)
 	_printStackParams('distanceMask', distanceMask)
@@ -403,14 +422,16 @@ def myVolume(path, doNapari=False):
 		tifffile.imsave(tmpOutPath, filledHolesMask)
 
 	#
-	# after filling holes, erode 1 iteration
-	erodedIterations = 1 # samiVolume3 used 3
-	tiffFileInfo['erodedIterations0'] = erodedIterations
-	filledHolesMask = morphology.binary_erosion(filledHolesMask, iterations=erodedIterations).astype(np.uint8) # returns a true/false mask?
+	# after filling holes, erode filledHolesMask by 1 iteration
+	#erodedIterations0 = 1 # samiVolume3 used 3
+	erodedIterations0 = gSami_Params['samiVolume2_params']['erodedIterations0']
+	tiffFileInfo['erodedIterations0'] = erodedIterations0
+	filledHolesMask = morphology.binary_erosion(filledHolesMask, iterations=erodedIterations0).astype(np.uint8) # returns a true/false mask?
 	
 	#
 	# erode mask by um distance
-	erodedIterations = 4 # samiVolume3 used 5
+	#erodedIterations = 4 # samiVolume3 used 5
+	erodedIterations = gSami_Params['samiVolume2_params']['erodedIterations']
 	erodedMask = morphology.binary_erosion(filledHolesMask, iterations=erodedIterations).astype(np.uint8) # returns a true/false mask?
 	_printStackParams('erodedMask', erodedMask)
 	tiffFileInfo['erodedIterations'] = erodedIterations
@@ -446,8 +467,6 @@ def myVolume(path, doNapari=False):
 
 	if doNapari:
 		myNapari(results)
-
-	#sys.exit()
 	
 	return tiffFileInfo
 	
@@ -460,9 +479,11 @@ if __name__ == '__main__':
 	dataPath = '/Users/cudmore/Desktop/samiVolume2'
 	dataPath = '/Users/cudmore/Desktop/samiVolume3'
 	'''
-	from gAnalysisPath import gAnalysisPath
-	dataPath = gAnalysisPath
+	#from gAnalysisPath import gAnalysisPath
+	#dataPath = gAnalysisPath
+	dataPath = gSami_Params['gAnalysisPath']
 	
+	'''
 	batchFileList = []
 	batchFile = '/Users/cudmore/Sites/smMicrotubule/analysis/wt-female.txt'
 	batchFileList.append(batchFile)
@@ -472,10 +493,13 @@ if __name__ == '__main__':
 	batchFileList.append(batchFile)
 	batchFile = '/Users/cudmore/Sites/smMicrotubule/analysis/ko-male.txt'
 	batchFileList.append(batchFile)
+	'''
 	
 	# debugging
-	#batchFileList = ['/Users/cudmore/Sites/smMicrotubule/analysis/one-wt-female.txt']
+	#batchFileList = ['/Users/cudmore/Sites/smMicrotubule/analysis/two_wt-female.txt']
 
+	batchFileList = gSami_Params['gBatchFileList']
+	
 	#
 	# parallel
 	cpuCount = mp.cpu_count()
@@ -520,7 +544,6 @@ if __name__ == '__main__':
 		if tiffFileInfo is not None:
 			fileDictList.append(tiffFileInfo)
 			
-	# was this
 	#bimpy.util.dictListToFile(fileDictList, '/Users/cudmore/Desktop/volume-results-2.csv')
 	mySavePath = os.path.join(dataPath, 'volume-results.csv')
 	bimpy.util.dictListToFile(fileDictList, mySavePath)
