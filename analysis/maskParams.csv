@@ -1,68 +1,137 @@
-idx,condIdx,genotype,sex,include,gaussianKernel,minThreshold,erodeITerations,removeNumSlicesFromMask,,cytosolErode,nucleus_erodeIterations,nucleus_removeNumSlicesFromMask,path
-0,,wt,female,,,3,,,,,,,200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif
-1,,wt,female,,,1,,,,,,,200108/WT_Female/Cell_7/7_5ADVMLEG1L1_ch2.tif
-2,,wt,female,FALSE,,-1,,,,,,,200108/WT_Female/Cell_8/8_5ADVMLEG1L1_ch2.tif
-3,,wt,female,,,0,,,,,,,200421/WT Female/Cell 1/Female WT cell 1_3ADVMLEG1L1_ch2.tif
-4,,wt,female,,,2,,,,,,,200421/WT Female/Cell 10/Female WT cell 10_3ADVMLEG1L1_ch2.tif
-5,,wt,female,,,1,,,,,,,200421/WT Female/Cell 11/Female WT cell 11_3ADVMLEG1L1_ch2.tif
-6,,wt,female,,,4,,,,,,,200421/WT Female/Cell 12/Female WT cell 12_3ADVMLEG1L1_ch2.tif
-7,,wt,female,,,1,,,,,,,200421/WT Female/Cell 13/Female WT cell 13_3ADVMLEG1L1_ch2.tif
-8,,wt,female,,,4,,,,,,,200421/WT Female/Cell 14/Female WT cell 14_3ADVMLEG1L1_ch2.tif
-9,,wt,female,,,4,,,,,,,200421/WT Female/Cell 15/Female WT cell 15_3ADVMLEG1L1_ch2.tif
-10,,wt,female,,,4,,,,,,,200421/WT Female/Cell 16/Female WT cell 16_3ADVMLEG1L1_ch2.tif
-11,,wt,female,,,2,,,,,,,200421/WT Female/Cell 17/Female WT cell 17_3ADVMLEG1L1_ch2.tif
-12,,wt,female,,,2,,,,,,,200421/WT Female/Cell 18/Female WT cell 18_3ADVMLEG1L1_ch2.tif
-13,,wt,female,,,2,,,,,,,200421/WT Female/Cell 19/Female WT cell 19_3ADVMLEG1L1_ch2.tif
-14,,wt,female,,,1,,,,,,,200421/WT Female/Cell 2/Female WT cell 2_3ADVMLEG1L1_ch2.tif
-15,,wt,female,,,2,,,,,,,200421/WT Female/Cell 20/Female WT cell 20_3ADVMLEG1L1_ch2.tif
-16,,wt,female,,,1,,,,,,,200421/WT Female/Cell 3/Female WT cell 3_3ADVMLEG1L1_ch2.tif
-17,,wt,female,,,1,,,,,,,200421/WT Female/Cell 4/Female WT cell 4_3ADVMLEG1L1_ch2.tif
-18,,wt,female,,,1,,,,,,,200421/WT Female/Cell 5/Female WT cell 5_3ADVMLEG1L1_ch2.tif
-19,,wt,female,,,1,,,,,,,200421/WT Female/Cell 6/Female WT cell 6_3ADVMLEG1L1_ch2.tif
-20,,wt,female,,,7,,,,,,,200421/WT Female/Cell 7/Female WT cell 7_3ADVMLEG1L1_ch2.tif
-21,,wt,female,,,1,,,,,,,200421/WT Female/Cell 8/Female WT cell 8_3ADVMLEG1L1_ch2.tif
-22,,wt,female,,,1,,,,,,,200421/WT Female/Cell 9/Female WT cell 9_3ADVMLEG1L1_ch2.tif
-23,0,wt,male,,,1,,,,,,,191230/WT_Male/Cell_4_/4_1_5ADVMLEG1L1_ch2.tif
-24,1,wt,male,,,0,,,,,,,191230/WT_Male/Cell_5/5_5ADVMLEG1L1_ch2.tif
-25,2,wt,male,FALSE,,1,,,,,,,191230/WT_Male/Cell_6_/6_5ADVMLEG1L1_ch2.tif
-26,3,wt,male,,,1,,,,,,,191230/WT_Male/Cell_7/7_5ADVMLEG1L1_ch2.tif
-27,4,wt,male,,,1,,,,,,,191230/WT_Male/Cell_8/8_5ADVMLEG1L1_ch2.tif
-28,5,wt,male,,,1,,,,,,,191230/WT_Male/Cell_9/9_5ADVMLEG1L1_ch2.tif
-29,6,wt,male,,,1,,,,,,,191230/WT_Male/Cell_10_/10_5ADVMLEG1L1_ch2.tif
-30,7,wt,male,,,3,,,,,,,200414/WT Male/Cell 1/Male WT cell 1_3ADVMLEG1L1_ch2.tif
-31,8,wt,male,,,2,,,,,,,200414/WT Male/Cell 10/Male WT cell 10_3ADVMLEG1L1_ch2.tif
-32,9,wt,male,,,2,,,,,,,200414/WT Male/Cell 12/Male WT cell 12_3ADVMLEG1L1_ch2.tif
-33,10,wt,male,,,4,,,,,,,200414/WT Male/Cell 13/Male WT cell 13_3ADVMLEG1L1_ch2.tif
-34,11,wt,male,,,2,,,,,,,200414/WT Male/Cell 14/Male WT cell 14_3ADVMLEG1L1_ch2.tif
-35,12,wt,male,,,2,,,,,,,200414/WT Male/Cell 15/Male WT cell 15_3ADVMLEG1L1_ch2.tif
-36,13,wt,male,,,3,,,,,,,200414/WT Male/Cell 17/Male WT cell 17_3ADVMLEG1L1_ch2.tif
-37,14,wt,male,,,5,,,,,,,200414/WT Male/Cell 18/Male WT cell 18_3ADVMLEG1L1_ch2.tif
-38,15,wt,male,,,2,,,,,,,200414/WT Male/Cell 19/Male WTcell 19_3ADVMLEG1L1_ch2.tif
-39,16,wt,male,,,2,,,,,,,200414/WT Male/Cell 2/Male WT cell 2_3ADVMLEG1L1_ch2.tif
-40,17,wt,male,,,2,,,,,,,200414/WT Male/Cell 20/Male WTcell 20_3ADVMLEG1L1_ch2.tif
-41,18,wt,male,,,4,,,,,,,200414/WT Male/Cell 21/Male WTcell 21_3ADVMLEG1L1_ch2.tif
-42,19,wt,male,,,2,,,,,,,200414/WT Male/Cell 22/Male WTcell 22_3ADVMLEG1L1_ch2.tif
-43,20,wt,male,,,5,,,,,,,200414/WT Male/Cell 23/Male WTcell 23_3ADVMLEG1L1_ch2.tif
-44,21,wt,male,,,3,,,,,,,200414/WT Male/Cell 24/Male WTcell 24_3ADVMLEG1L1_ch2.tif
-45,22,wt,male,,,3,,,,,,,200414/WT Male/Cell 25/Male WTcell 25_3ADVMLEG1L1_ch2.tif
-46,23,wt,male,,,,,,,,,,200414/WT Male/Cell 26/Male WTcell 26_3ADVMLEG1L1_ch2.tif
-47,24,wt,male,,,,,,,,,,200414/WT Male/Cell 27/Male WTcell 27_3ADVMLEG1L1_ch2.tif
-48,25,wt,male,,,,,,,,,,200414/WT Male/Cell 28/Male WTcell 28_3ADVMLEG1L1_ch2.tif
-49,26,wt,male,,,,,,,,,,200414/WT Male/Cell 29/Male WTcell 29_3ADVMLEG1L1_ch2.tif
-50,27,wt,male,,,,,,,,,,200414/WT Male/Cell 3/Male WT cell 3_3ADVMLEG1L1_ch2.tif
-51,28,wt,male,,,,,,,,,,200414/WT Male/Cell 30/Male WTcell 30_3ADVMLEG1L1_ch2.tif
-52,29,wt,male,,,,,,,,,,200414/WT Male/Cell 4/Male WT cell 4_3ADVMLEG1L1_ch2.tif
-53,30,wt,male,,,,,,,,,,200414/WT Male/Cell 5/Male WT cell 5_3ADVMLEG1L1_ch2.tif
-54,31,wt,male,,,,,,,,,,200414/WT Male/Cell 6/Male WT cell 6_3ADVMLEG1L1_ch2.tif
-55,32,wt,male,,,,,,,,,,200414/WT Male/Cell 7/Male WT cell 7_3ADVMLEG1L1_ch2.tif
-56,33,wt,male,,,,,,,,,,200414/WT Male/Cell 9/Male WT cell 9_3ADVMLEG1L1_ch2.tif
-57,34,wt,male,,,,,,,,,,200421/WT Male/Cell 1/WT Male 1_3ADVMLEG1L1_ch2.tif
-58,35,wt,male,,,,,,,,,,200421/WT Male/Cell 10/WT Male 10_3ADVMLEG1L1_ch2.tif
-59,36,wt,male,,,,,,,,,,200421/WT Male/Cell 2/WT Male 2_3ADVMLEG1L1_ch2.tif
-60,37,wt,male,,,,,,,,,,200421/WT Male/Cell 3/WT Male 3_3ADVMLEG1L1_ch2.tif
-61,38,wt,male,,,,,,,,,,200421/WT Male/Cell 4/WT Male 4_3ADVMLEG1L1_ch2.tif
-62,39,wt,male,,,,,,,,,,200421/WT Male/Cell 5/WT Male 5_3ADVMLEG1L1_ch2.tif
-63,40,wt,male,,,,,,,,,,200421/WT Male/Cell 6/WT Male 6_3ADVMLEG1L1_ch2.tif
-64,41,wt,male,,,,,,,,,,200421/WT Male/Cell 7/WT Male 7_3ADVMLEG1L1_ch2.tif
-65,42,wt,male,,,,,,,,,,200421/WT Male/Cell 8/WT Male 8_3ADVMLEG1L1_ch2.tif
-66,43,wt,male,,,,,,,,,,200421/WT Male/Cell 9/WT Male 9_3ADVMLEG1L1_ch2.tif
+idx,condIdx,genotype,sex,include,gaussianKernel,minThreshold,erodeITerations,removeNumSlicesFromMask,,cytosolErode,nucleus_erodeIterations,nucleus_removeNumSlicesFromMask,,path
+0,,wt,female,,,3,,,,,,,,200108/WT_Female/Cell_1/1_5ADVMLEG1L1_ch2.tif
+1,,wt,female,,,1,,,,,,,,200108/WT_Female/Cell_7/7_5ADVMLEG1L1_ch2.tif
+2,,wt,female,FALSE,,-1,,,,,,,,200108/WT_Female/Cell_8/8_5ADVMLEG1L1_ch2.tif
+3,,wt,female,,,0,,,,,,,,200421/WT Female/Cell 1/Female WT cell 1_3ADVMLEG1L1_ch2.tif
+4,,wt,female,,,2,,,,,,,,200421/WT Female/Cell 10/Female WT cell 10_3ADVMLEG1L1_ch2.tif
+5,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 11/Female WT cell 11_3ADVMLEG1L1_ch2.tif
+6,,wt,female,,,4,,,,,,,,200421/WT Female/Cell 12/Female WT cell 12_3ADVMLEG1L1_ch2.tif
+7,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 13/Female WT cell 13_3ADVMLEG1L1_ch2.tif
+8,,wt,female,,,4,,,,,,,,200421/WT Female/Cell 14/Female WT cell 14_3ADVMLEG1L1_ch2.tif
+9,,wt,female,,,4,,,,,,,,200421/WT Female/Cell 15/Female WT cell 15_3ADVMLEG1L1_ch2.tif
+10,,wt,female,,,4,,,,,,,,200421/WT Female/Cell 16/Female WT cell 16_3ADVMLEG1L1_ch2.tif
+11,,wt,female,,,2,,,,,,,,200421/WT Female/Cell 17/Female WT cell 17_3ADVMLEG1L1_ch2.tif
+12,,wt,female,,,2,,,,,,,,200421/WT Female/Cell 18/Female WT cell 18_3ADVMLEG1L1_ch2.tif
+13,,wt,female,,,2,,,,,,,,200421/WT Female/Cell 19/Female WT cell 19_3ADVMLEG1L1_ch2.tif
+14,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 2/Female WT cell 2_3ADVMLEG1L1_ch2.tif
+15,,wt,female,,,2,,,,,,,,200421/WT Female/Cell 20/Female WT cell 20_3ADVMLEG1L1_ch2.tif
+16,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 3/Female WT cell 3_3ADVMLEG1L1_ch2.tif
+17,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 4/Female WT cell 4_3ADVMLEG1L1_ch2.tif
+18,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 5/Female WT cell 5_3ADVMLEG1L1_ch2.tif
+19,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 6/Female WT cell 6_3ADVMLEG1L1_ch2.tif
+20,,wt,female,,,7,,,,,,,,200421/WT Female/Cell 7/Female WT cell 7_3ADVMLEG1L1_ch2.tif
+21,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 8/Female WT cell 8_3ADVMLEG1L1_ch2.tif
+22,,wt,female,,,1,,,,,,,,200421/WT Female/Cell 9/Female WT cell 9_3ADVMLEG1L1_ch2.tif
+23,0,wt,male,,,1,,,,,,,,191230/WT_Male/Cell_4_/4_1_5ADVMLEG1L1_ch2.tif
+24,1,wt,male,,,0,,,,,,,,191230/WT_Male/Cell_5/5_5ADVMLEG1L1_ch2.tif
+25,2,wt,male,FALSE,,1,,,,,,,,191230/WT_Male/Cell_6_/6_5ADVMLEG1L1_ch2.tif
+26,3,wt,male,,,1,,,,,,,,191230/WT_Male/Cell_7/7_5ADVMLEG1L1_ch2.tif
+27,4,wt,male,,,1,,,,,,,,191230/WT_Male/Cell_8/8_5ADVMLEG1L1_ch2.tif
+28,5,wt,male,,,1,,,,,,,,191230/WT_Male/Cell_9/9_5ADVMLEG1L1_ch2.tif
+29,6,wt,male,,,1,,,,,,,,191230/WT_Male/Cell_10_/10_5ADVMLEG1L1_ch2.tif
+30,7,wt,male,,,3,,,,,,,,200414/WT Male/Cell 1/Male WT cell 1_3ADVMLEG1L1_ch2.tif
+31,8,wt,male,,,2,,,,,,,,200414/WT Male/Cell 10/Male WT cell 10_3ADVMLEG1L1_ch2.tif
+32,9,wt,male,,,2,,,,,,,,200414/WT Male/Cell 12/Male WT cell 12_3ADVMLEG1L1_ch2.tif
+33,10,wt,male,,,4,,,,,,,,200414/WT Male/Cell 13/Male WT cell 13_3ADVMLEG1L1_ch2.tif
+34,11,wt,male,,,2,,,,,,,,200414/WT Male/Cell 14/Male WT cell 14_3ADVMLEG1L1_ch2.tif
+35,12,wt,male,,,2,,,,,,,,200414/WT Male/Cell 15/Male WT cell 15_3ADVMLEG1L1_ch2.tif
+36,13,wt,male,,,3,,,,,,,,200414/WT Male/Cell 17/Male WT cell 17_3ADVMLEG1L1_ch2.tif
+37,14,wt,male,,,5,,,,,,,,200414/WT Male/Cell 18/Male WT cell 18_3ADVMLEG1L1_ch2.tif
+38,15,wt,male,,,2,,,,,,,,200414/WT Male/Cell 19/Male WTcell 19_3ADVMLEG1L1_ch2.tif
+39,16,wt,male,,,2,,,,,,,,200414/WT Male/Cell 2/Male WT cell 2_3ADVMLEG1L1_ch2.tif
+40,17,wt,male,,,2,,,,,,,,200414/WT Male/Cell 20/Male WTcell 20_3ADVMLEG1L1_ch2.tif
+41,18,wt,male,,,4,,,,,,,,200414/WT Male/Cell 21/Male WTcell 21_3ADVMLEG1L1_ch2.tif
+42,19,wt,male,,,2,,,,,,,,200414/WT Male/Cell 22/Male WTcell 22_3ADVMLEG1L1_ch2.tif
+43,20,wt,male,,,5,,,,,,,,200414/WT Male/Cell 23/Male WTcell 23_3ADVMLEG1L1_ch2.tif
+44,21,wt,male,,,3,,,,,,,,200414/WT Male/Cell 24/Male WTcell 24_3ADVMLEG1L1_ch2.tif
+45,22,wt,male,,,3,,,,,,,,200414/WT Male/Cell 25/Male WTcell 25_3ADVMLEG1L1_ch2.tif
+46,23,wt,male,,,2,,,,,,,,200414/WT Male/Cell 26/Male WTcell 26_3ADVMLEG1L1_ch2.tif
+47,24,wt,male,,,3,,,,,,,,200414/WT Male/Cell 27/Male WTcell 27_3ADVMLEG1L1_ch2.tif
+48,25,wt,male,,,3,,,,,,,,200414/WT Male/Cell 28/Male WTcell 28_3ADVMLEG1L1_ch2.tif
+49,26,wt,male,,,3,,,,,,,,200414/WT Male/Cell 29/Male WTcell 29_3ADVMLEG1L1_ch2.tif
+50,27,wt,male,,,4,,,,,,,,200414/WT Male/Cell 3/Male WT cell 3_3ADVMLEG1L1_ch2.tif
+51,28,wt,male,,,3,,,,,,,,200414/WT Male/Cell 30/Male WTcell 30_3ADVMLEG1L1_ch2.tif
+52,29,wt,male,,,3,,,,,,,,200414/WT Male/Cell 4/Male WT cell 4_3ADVMLEG1L1_ch2.tif
+53,30,wt,male,,,1,,,,,,,maybe reject?,200414/WT Male/Cell 5/Male WT cell 5_3ADVMLEG1L1_ch2.tif
+54,31,wt,male,,,2,,,,,,,,200414/WT Male/Cell 6/Male WT cell 6_3ADVMLEG1L1_ch2.tif
+55,32,wt,male,,,1,,,,,,,,200414/WT Male/Cell 7/Male WT cell 7_3ADVMLEG1L1_ch2.tif
+56,33,wt,male,,,1,,,,,,,,200414/WT Male/Cell 9/Male WT cell 9_3ADVMLEG1L1_ch2.tif
+57,34,wt,male,,,1,,,,,,,not flat on dish,200421/WT Male/Cell 1/WT Male 1_3ADVMLEG1L1_ch2.tif
+58,35,wt,male,,,1,,,,,,,,200421/WT Male/Cell 10/WT Male 10_3ADVMLEG1L1_ch2.tif
+59,36,wt,male,FALSE,,2,,,,,,,glitch in masking algorithm,200421/WT Male/Cell 2/WT Male 2_3ADVMLEG1L1_ch2.tif
+60,37,wt,male,,,3,,,,,,,two cells,200421/WT Male/Cell 3/WT Male 3_3ADVMLEG1L1_ch2.tif
+61,38,wt,male,,,2,,,,,,,,200421/WT Male/Cell 4/WT Male 4_3ADVMLEG1L1_ch2.tif
+62,39,wt,male,,,1,,,,,,,,200421/WT Male/Cell 5/WT Male 5_3ADVMLEG1L1_ch2.tif
+63,40,wt,male,FALSE,,1,,,,,,,7 labels in final mask (broken up),200421/WT Male/Cell 6/WT Male 6_3ADVMLEG1L1_ch2.tif
+64,41,wt,male,,,1,,,,,,,,200421/WT Male/Cell 7/WT Male 7_3ADVMLEG1L1_ch2.tif
+65,42,wt,male,,,1,,,,,,,,200421/WT Male/Cell 8/WT Male 8_3ADVMLEG1L1_ch2.tif
+66,43,wt,male,,,1,,,,,,,,200421/WT Male/Cell 9/WT Male 9_3ADVMLEG1L1_ch2.tif
+67,0,ko,female,,,1,,,,,,,,200108/BIN1smKO_Female/Cell_2/2_5ADVMLEG1L1_ch2.tif
+68,1,ko,female,,,1,,,,,,,,200108/BIN1smKO_Female/Cell_3/3_5ADVMLEG1L1_ch2.tif
+69,2,ko,female,,,1,,,,,,,,200108/BIN1smKO_Female/Cell_4_/4_5ADVMLEG1L1_ch2.tif
+70,3,ko,female,,,1,,,,,,,,200108/BIN1smKO_Female/Cell_5/5_5ADVMLEG1L1_ch2.tif
+71,4,ko,female,,,1,,,,,,,,200108/BIN1smKO_Female/Cell_6/6_5ADVMLEG1L1_ch2.tif
+72,5,ko,female,,,1,,,,,,,,200108/BIN1smKO_Female/Cell_9/9_5ADVMLEG1L1_ch2.tif
+73,6,ko,female,FALSE,,1,,,,,,,file missing,200108/BIN1smKO_Female/Cell_10/10_ch2.tif
+74,7,ko,female,,,1,,,,,,,,200108/BIN1smKO_Female/Cell_11/11_5ADVMLEG1L1_ch2.tif
+75,8,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 1/Female KOl 1_3ADVMLEG1L1_ch2.tif
+76,9,ko,female,,,2,,,,,,,,200421/BIN1smKO Female/Cell 10/Female KO 10_3ADVMLEG1L1_ch2.tif
+77,10,ko,female,,,2,,,,,,,,200421/BIN1smKO Female/Cell 11/Female KO 11_3ADVMLEG1L1_ch2.tif
+78,11,ko,female,,,2,,,,,,,,200421/BIN1smKO Female/Cell 12/Female KO 12_3ADVMLEG1L1_ch2.tif
+79,12,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 13/Female KO 13_3ADVMLEG1L1_ch2.tif
+80,13,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 14/Female KO 14_3ADVMLEG1L1_ch2.tif
+81,14,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 15/Female KO 15_3ADVMLEG1L1_ch2.tif
+82,15,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 16/Female KO 16_3ADVMLEG1L1_ch2.tif
+83,16,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 17/Female KO 17_3ADVMLEG1L1_ch2.tif
+84,17,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 2/Female KO 2_3ADVMLEG1L1_ch2.tif
+85,18,ko,female,,,1,,,,,,,mask has some holes,200421/BIN1smKO Female/Cell 3/Female KO 3_3ADVMLEG1L1_ch2.tif
+86,19,ko,female,,,1,,,,,,,,200421/BIN1smKO Female/Cell 4/Female KO 4_3ADVMLEG1L1_ch2.tif
+87,20,ko,female,,,3,,,,,,,,200421/BIN1smKO Female/Cell 5/Female KO 5_3ADVMLEG1L1_ch2.tif
+88,21,ko,female,,,2,,,,,,,,200421/BIN1smKO Female/Cell 6/Female KO 6_3ADVMLEG1L1_ch2.tif
+89,22,ko,female,,,2,,,,,,,,200421/BIN1smKO Female/Cell 7/Female KO 7_3ADVMLEG1L1_ch2.tif
+90,23,ko,female,,,2,,,,,,,,200421/BIN1smKO Female/Cell 8/Female KO 8_3ADVMLEG1L1_ch2.tif
+91,24,ko,female,,,3,,,,,,,,200421/BIN1smKO Female/Cell 9/Female KO 9_3ADVMLEG1L1_ch2.tif
+92,0,ko,male,FALSE,,1,,,,,,,just puncta,191230/BIN1_smKO_Male/Cell_12/12_5ADVMLEG1L1_ch2.tif
+93,1,ko,male,FALSE,,1,,,,,,,just puncta,191230/BIN1_smKO_Male/Cell_13/13_5ADVMLEG1L1_ch2.tif
+94,2,ko,male,FALSE,,1,,,,,,,just puncta,191230/BIN1_smKO_Male/Cell_14/14_5ADVMLEG1L1_ch2.tif
+95,3,ko,male,FALSE,,2,,,,,,,just puncta,191230/BIN1_smKO_Male/Cell_15/15_5ADVMLEG1L1_ch2.tif
+96,4,ko,male,,,1,,,,,,,,200414/Bin1smKO Male/Cell 1/Male KO cell 1_3ADVMLEG1L1_ch2.tif
+97,5,ko,male,,,5,,,,,,,,200414/Bin1smKO Male/Cell 10/Male KO cell 10_3ADVMLEG1L1_ch2.tif
+98,6,ko,male,,,3,,,,,,,,200414/Bin1smKO Male/Cell 11/Male KO cell 11_3ADVMLEG1L1_ch2.tif
+99,7,ko,male,,,5,,,,,,,,200414/Bin1smKO Male/Cell 12/Male KO cell 12_3ADVMLEG1L1_ch2.tif
+100,8,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 13/Male KO cell 13_3ADVMLEG1L1_ch2.tif
+101,9,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 14/Male KO cell 14_3ADVMLEG1L1_ch2.tif
+102,10,ko,male,,,3,,,,,,,,200414/Bin1smKO Male/Cell 15/Male KO cell 15_3ADVMLEG1L1_ch2.tif
+103,11,ko,male,,,7,,,,,,,,200414/Bin1smKO Male/Cell 16/Male KO cell 16_3ADVMLEG1L1_ch2.tif
+104,12,ko,male,,,6,,,,,,,,200414/Bin1smKO Male/Cell 17/Male KO cell 17_3ADVMLEG1L1_ch2.tif
+105,13,ko,male,,,5,,,,,,,,200414/Bin1smKO Male/Cell 18/Male KO cell 18_3ADVMLEG1L1_ch2.tif
+106,14,ko,male,,,5,,,,,,,,200414/Bin1smKO Male/Cell 19/Male KO cell 19_3ADVMLEG1L1_ch2.tif
+107,15,ko,male,,,4,,,,,,,,200414/Bin1smKO Male/Cell 2/Male KO cell 2_3ADVMLEG1L1_ch2.tif
+108,16,ko,male,,,3,,,,,,,,200414/Bin1smKO Male/Cell 20/Male KO cell 20_3ADVMLEG1L1_ch2.tif
+109,17,ko,male,,,5,,,,,,,,200414/Bin1smKO Male/Cell 21/Male KO cell 21_3ADVMLEG1L1_ch2.tif
+110,18,ko,male,,,4,,,,,,,,200414/Bin1smKO Male/Cell 22/Male KO cell 22_3ADVMLEG1L1_ch2.tif
+111,19,ko,male,,,4,,,,,,,,200414/Bin1smKO Male/Cell 23/Male KO cell 23_3ADVMLEG1L1_ch2.tif
+112,20,ko,male,,,4,,,,,,,,200414/Bin1smKO Male/Cell 24/Male KO cell 24_3ADVMLEG1L1_ch2.tif
+113,21,ko,male,,,5,,,,,,,,200414/Bin1smKO Male/Cell 25/Male KO cell 25_3ADVMLEG1L1_ch2.tif
+114,22,ko,male,,,4,,,,,,,,200414/Bin1smKO Male/Cell 26/Male KO cell 26_3ADVMLEG1L1_ch2.tif
+115,23,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 27/Male KO cell 27_3ADVMLEG1L1_ch2.tif
+116,24,ko,male,,,3,,,,,,,,200414/Bin1smKO Male/Cell 28/Male KO cell 28_3ADVMLEG1L1_ch2.tif
+117,25,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 29/Male KO cell 29_3ADVMLEG1L1_ch2.tif
+118,26,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 3/Male KO cell 3_3ADVMLEG1L1_ch2.tif
+119,27,ko,male,,,3,,,,,,,,200414/Bin1smKO Male/Cell 30/Male KO cell 30_3ADVMLEG1L1_ch2.tif
+120,28,ko,male,,,4,,,,,,,,200414/Bin1smKO Male/Cell 4/Male KO cell 4_3ADVMLEG1L1_ch2.tif
+121,29,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 5/Male KO cell 5_3ADVMLEG1L1_ch2.tif
+122,30,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 6/Male KO cell 6_3ADVMLEG1L1_ch2.tif
+123,31,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 7/Male KO cell 7_3ADVMLEG1L1_ch2.tif
+124,32,ko,male,,,2,,,,,,,,200414/Bin1smKO Male/Cell 8/Male KO cell 8_3ADVMLEG1L1_ch2.tif
+125,33,ko,male,,,3,,,,,,,,200414/Bin1smKO Male/Cell 9/Male KO cell 9_3ADVMLEG1L1_ch2.tif
+126,34,ko,male,,,1,,,,,,,,200421/BIN1smKO Male/Cell 1/KO Male 1_3ADVMLEG1L1_ch2.tif
+127,35,ko,male,,,1,,,,,,,centrosome,200421/BIN1smKO Male/Cell 10/KO Male 10_3ADVMLEG1L1_ch2.tif
+128,36,ko,male,,,1,,,,,,,,200421/BIN1smKO Male/Cell 2/KO Male 2_3ADVMLEG1L1_ch2.tif
+129,37,ko,male,,,1,,,,,,,,200421/BIN1smKO Male/Cell 3/KO Male 3_3ADVMLEG1L1_ch2.tif
+130,38,ko,male,,,1,,,,,,,,200421/BIN1smKO Male/Cell 4/KO Male 4_3ADVMLEG1L1_ch2.tif
+131,39,ko,male,,,1,,,,,,,,200421/BIN1smKO Male/Cell 5/KO Male 5_3ADVMLEG1L1_ch2.tif
+132,40,ko,male,,,2,,,,,,,,200421/BIN1smKO Male/Cell 6/KO Male 6_3ADVMLEG1L1_ch2.tif
+133,41,ko,male,,,1,,,,,,,,200421/BIN1smKO Male/Cell 7/KO Male 7_3ADVMLEG1L1_ch2.tif
+134,42,ko,male,,,2,,,,,,,,200421/BIN1smKO Male/Cell 8/KO Male 8_3ADVMLEG1L1_ch2.tif
+135,43,ko,male,,,1,,,,,,,,200421/BIN1smKO Male/Cell 9/KO Male 9_3ADVMLEG1L1_ch2.tif

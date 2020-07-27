@@ -80,6 +80,8 @@ def samiMaskMicrotubules(path, paramDict, doSave=False, doNapari=False):
 	rangeSmooth = maxSmooth - minSmooth + 1
 	print('  minSmooth:', minSmooth, 'maxSmooth:', maxSmooth, 'rangeSmooth:', rangeSmooth, currentStack.dtype)
 	
+	# todo: report min/max of filtered
+	
 	#
 	# threshold
 	# remember, my threshold otsu does slice by slice, does not seem to be a 3d otsu?
@@ -135,7 +137,9 @@ def samiMaskMicrotubules(path, paramDict, doSave=False, doNapari=False):
 	for i in range(labelMax+1):
 		numInLabel = np.count_nonzero(labeledMask==i)
 		print('   label:', i, 'has', numInLabel)
-		
+	
+	# todo: report number of labels
+	
 	#
 	# make ring and cytosol masks
 	cytosolErode = paramDict['cytosolErode']
@@ -267,7 +271,7 @@ if __name__ == '__main__':
 		####
 		####
 		# file 30 needs to use less erosion on nucleus ?????
-		thisFileNum = 45 # if specified will NOT run in parallel
+		thisFileNum = 135 # if specified will NOT run in parallel
 		####
 		####
 		
@@ -303,8 +307,9 @@ if __name__ == '__main__':
 			#print('minThreshold:', str(minThreshold), minThreshold.dtype, str(minThreshold)=='nan')
 			if str(minThreshold) == 'nan':
 				# don't use
-				pass
 				print('!!! ignoring file', i, 'minThreshold is not specified, path:', path)
+				#pass
+				continue
 			else:
 				paramDict['minThreshold'] = minThreshold
 			
@@ -313,6 +318,7 @@ if __name__ == '__main__':
 			if isinstance(include, bool):
 				doInclude = include
 			if not doInclude:
+				print('!!! ignoring file', i, 'doInclude:', doInclude, 'path:', path)
 				continue
 				
 			#
